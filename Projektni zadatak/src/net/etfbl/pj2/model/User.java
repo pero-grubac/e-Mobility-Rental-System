@@ -1,4 +1,4 @@
-package net.etfbl.pj2.user;
+package net.etfbl.pj2.model;
 
 import java.util.List;
 

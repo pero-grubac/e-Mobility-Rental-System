@@ -1,96 +1,52 @@
 package net.etfbl.pj2.rental;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import net.etfbl.pj2.model.Field;
+
 public class Rental {
+	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy HH:mm");
 
 	private String rentalId;
-	private String userId;
+	private String username;
+	private String vehicleId;
 	private String userName;
-	private Integer startLocation;
-	private Integer endLocation;
-	private Date startTime;
-	private Date endTime;
+	private Field startLocation;
+	private Field endLocation;
+	private LocalDateTime startTime;
+	private LocalDateTime endTime;
 	private Integer durationInSeconds;
 	private BigDecimal price;
 	private Boolean isWideArea;
 	private Boolean isPromotion;
 	private Boolean isDiscount;
-	
-	
-	public String getRentalId() {
-		return rentalId;
-	}
-	public void setRentalId(String rentalId) {
-		this.rentalId = rentalId;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	public Integer getStartLocation() {
-		return startLocation;
-	}
-	public void setStartLocation(Integer startLocation) {
+	private Boolean isBreakdown;
+
+	public Rental(String userId, String vehicleId, Field startLocation, Field endLocation, LocalDateTime startTime,
+			Integer durationInSeconds, Boolean isPromotion, Boolean isBreakdown) {
+		super();
+		this.username = userId;
+		this.vehicleId = vehicleId;
 		this.startLocation = startLocation;
-	}
-	public Integer getEndLocation() {
-		return endLocation;
-	}
-	public void setEndLocation(Integer endLocation) {
 		this.endLocation = endLocation;
-	}
-	public Date getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
-	}
-	public Date getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
-	public Integer getDurationInSeconds() {
-		return durationInSeconds;
-	}
-	public void setDurationInSeconds(Integer durationInSeconds) {
 		this.durationInSeconds = durationInSeconds;
-	}
-	public BigDecimal getPrice() {
-		return price;
-	}
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-	public Boolean getIsWideArea() {
-		return isWideArea;
-	}
-	public void setIsWideArea(Boolean isWideArea) {
-		this.isWideArea = isWideArea;
-	}
-	public Boolean getIsPromotion() {
-		return isPromotion;
-	}
-	public void setIsPromotion(Boolean isPromotion) {
 		this.isPromotion = isPromotion;
+		this.isBreakdown = isBreakdown;
 	}
-	public Boolean getIsDiscount() {
-		return isDiscount;
+
+	@Override
+	public String toString() {
+		return "Rental rentalId=" + rentalId + ", username=" + username + ", vehicleId=" + vehicleId + ", userName="
+				+ userName + ", startLocation=" + startLocation + ", endLocation=" + endLocation + ", startTime="
+				+ (startTime != null ? startTime.format(DATE_TIME_FORMATTER) : "N/A") + ", endTime="
+				+ (endTime != null ? endTime.format(DATE_TIME_FORMATTER) : "N/A") + ", durationInSeconds="
+				+ durationInSeconds + ", price=" + price + ", isWideArea=" + isWideArea + ", isPromotion=" + isPromotion
+				+ ", isDiscount=" + isDiscount + ", isBreakdown=" + isBreakdown;
 	}
-	public void setIsDiscount(Boolean isDiscount) {
-		this.isDiscount = isDiscount;
-	}
-	
-	
+
 }
