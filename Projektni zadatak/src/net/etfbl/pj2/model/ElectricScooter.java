@@ -1,6 +1,8 @@
 package net.etfbl.pj2.model;
 
-public class ElectricScooter extends TransportVehicle {
+import java.io.Serializable;
+
+public class ElectricScooter extends TransportVehicle  {
 	private Integer maxSpeed;
 
 	public ElectricScooter() {
@@ -33,7 +35,7 @@ public class ElectricScooter extends TransportVehicle {
 
 	@Override
 	public String toString() {
-		return "ElectricScooter " + super.toString() + ", maxSpeed=" + maxSpeed;
+		return "ElectricScooter " + super.toString() + ", maxSpeed= " + maxSpeed;
 	}
 
 }

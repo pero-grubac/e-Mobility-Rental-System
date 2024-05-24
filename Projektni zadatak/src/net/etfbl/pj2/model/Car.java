@@ -1,5 +1,6 @@
 package net.etfbl.pj2.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -7,17 +8,14 @@ public class Car extends TransportVehicle {
 
 	private LocalDate purchaseDate;
 	private String description;
-	private Integer passengerCapacity;
-	private User driver;
-	
+
 	public Car(String id, String manufacturer, String model, Double purchasePrice, String batteryLevel,
-			LocalDate purchaseDate, String description, Integer passengerCapacity, User driver) {
+			LocalDate purchaseDate, String description, Integer passengerCapacity) {
 
 		super(id, manufacturer, model, purchasePrice, batteryLevel);
 		this.purchaseDate = purchaseDate;
 		this.description = description;
-		this.passengerCapacity = passengerCapacity;
-		this.driver = driver;
+
 	}
 
 	public Car(String id, String manufacturer, String model, Double purchasePrice, LocalDate purchaseDate,
@@ -43,9 +41,8 @@ public class Car extends TransportVehicle {
 
 	@Override
 	public String toString() {
-		return "Car " + super.toString() + ", purchaseDate="
-				+ (purchaseDate != null ? purchaseDate.format(DATE_FORMATTER) : "N/A") + ", description=" + description
-				+ ", passengerCapacity=" + passengerCapacity + ", driver=" + driver;
+		return "Car " + super.toString() + ", purchaseDate= "
+				+ (purchaseDate != null ? purchaseDate.format(DATE_FORMATTER) : "N/A") + ", description= " + description;
 	}
 
 }

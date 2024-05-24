@@ -6,7 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import net.etfbl.pj2.model.Field;
 import net.etfbl.pj2.rental.Rental;
@@ -18,10 +21,9 @@ public class RentalParser {
 		try (BufferedReader br = new BufferedReader(new FileReader(new File(filePath)))) {
 			String line;
 			// preskociti zaglavlje
-			br.readLine();	
+			br.readLine();
 			while ((line = br.readLine()) != null) {
 				String[] values = line.split(",");
-				
 				
 				LocalDateTime startDate = LocalDateTime.parse(values[0].replace("\"", ""), Rental.DATE_TIME_FORMATTER);
 				String username = values[1];
@@ -31,14 +33,15 @@ public class RentalParser {
 				Integer endLocationX = Integer.parseInt(values[5].replace("\"", ""));
 				Integer endLocationY = Integer.parseInt(values[6].replace("\"", ""));
 				Integer duration = Integer.parseInt(values[7]);
-				boolean breakdown = "da".equalsIgnoreCase(values[8]);
-				boolean promotion = "da".equalsIgnoreCase(values[9]);
+				boolean breakdown = "da".equalsIgnoreCase(values[8]);				
+				boolean promotion = "da".equalsIgnoreCase(values[9].replace("\"", ""));
 				rentals.add(new Rental(username, vehicleId, new Field(startLocationX, startLocationY),
 						new Field(endLocationX, endLocationY), startDate, duration, promotion, breakdown));
+			
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return rentals;
+		return rentals.stream().sorted(Comparator.comparing(Rental::getStartTime)).collect(Collectors.toList());
 	}
 }

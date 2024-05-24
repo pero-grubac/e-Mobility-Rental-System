@@ -1,5 +1,7 @@
 package net.etfbl.pj2.model;
 
+import java.io.Serializable;
+
 public class ElectricBike extends TransportVehicle {
 	private Integer rangePerCharge;
 
@@ -33,7 +35,7 @@ public class ElectricBike extends TransportVehicle {
 
 	@Override
 	public String toString() {
-		return "ElectricBike " + super.toString() + ", rangePerCharge=" + rangePerCharge;
+		return "ElectricBike " + super.toString() + ", rangePerCharge= " + rangePerCharge;
 	}
 
 }

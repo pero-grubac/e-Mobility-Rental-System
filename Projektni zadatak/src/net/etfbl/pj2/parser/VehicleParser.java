@@ -45,7 +45,10 @@ public class VehicleParser {
 				case "trotinet":
 					vehicle = new ElectricScooter(id, manufacturer, model, purchasePrice, maxSpeed);
 					break;
+				default:
+					// baci izuzetak
 				}
+
 				vehicles.add(vehicle);
 
 			}
