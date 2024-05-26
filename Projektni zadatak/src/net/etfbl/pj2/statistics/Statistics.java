@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import net.etfb.pj2.exception.UnknownVehicleException;
 import net.etfbl.pj2.invoice.Invoice;
 import net.etfbl.pj2.model.Car;
 import net.etfbl.pj2.model.ElectricBike;
@@ -45,7 +46,8 @@ public class Statistics implements IStatistics {
 		AppConfig conf = new AppConfig();
 		for (Invoice invoice : invoices)
 			for (Field field : invoice.getRental().getShortestPath())
-				if (field.getX() <= 10 || field.getY() <= 10)
+				if (field.getX() < conf.getNarrowBeginingXAxis() || field.getX() > conf.getNarrowEndXAxis()
+						|| field.getY() < conf.getNarrowBeginingYAxis() || field.getY() > conf.getNarrowEndYAxis())
 					temp += invoice.getBasicPrice() * conf.getDistanceWide();
 		return BigDecimal.valueOf(temp).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
@@ -55,7 +57,8 @@ public class Statistics implements IStatistics {
 		Double temp = 0.0;
 		for (Invoice invoice : invoices)
 			for (Field field : invoice.getRental().getShortestPath())
-				if (field.getX() > 10 || field.getY() > 10)
+				if (field.getX() >= conf.getNarrowBeginingXAxis() && field.getX() <= conf.getNarrowEndXAxis()
+						&& field.getY() >= conf.getNarrowBeginingYAxis() && field.getY() <= conf.getNarrowEndYAxis())
 					temp += invoice.getBasicPrice() * conf.getDistanceNarrow();
 		return BigDecimal.valueOf(temp).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
@@ -75,7 +78,7 @@ public class Statistics implements IStatistics {
 	@Override
 	public BigDecimal calculateTotalTax() {
 		BigDecimal temp = calculateTotalIncome().subtract(calculateTotalAmountForMaintence())
-				.subtract(calculateTotalAmountForRepairs());
+				.subtract(calculateTotalAmountForRepairs()).subtract(calculateTotalCost());
 		return temp.multiply(BigDecimal.valueOf(conf.getTax())).setScale(conf.getBigDecimalRound(),
 				RoundingMode.HALF_UP);
 	}
@@ -84,16 +87,22 @@ public class Statistics implements IStatistics {
 	public BigDecimal calculateTotalAmountForRepairs() {
 		Double temp = 0.0;
 		TransportVehicle vehicele;
-		for (Invoice invoice : invoices) {
-			vehicele = invoice.getVehicle();
-			if (vehicele instanceof Car)
-				temp += vehicele.getPurchasePrice() * conf.getCarRepairPrice();
-			else if (vehicele instanceof ElectricBike)
-				temp += vehicele.getPurchasePrice() * conf.getBikeUnitPrice();
-			else if (vehicele instanceof ElectricScooter)
-				temp += vehicele.getPurchasePrice() * conf.getBikeUnitPrice();
-			else
-				System.out.println("nesto je poslo po zlu");
+		try {
+			for (Invoice invoice : invoices) {
+				vehicele = invoice.getVehicle();
+				if (vehicele instanceof Car)
+					temp += vehicele.getPurchasePrice() * conf.getCarRepairPrice();
+				else if (vehicele instanceof ElectricBike)
+					temp += vehicele.getPurchasePrice() * conf.getBikeUnitPrice();
+				else if (vehicele instanceof ElectricScooter)
+					temp += vehicele.getPurchasePrice() * conf.getBikeUnitPrice();
+				else
+					throw new UnknownVehicleException(vehicele.getClass().getName());
+			}
+		} catch (UnknownVehicleException e) {
+			System.err.println(e.getMessage());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
 		// baci ex
 		return BigDecimal.valueOf(temp).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
@@ -112,8 +121,9 @@ public class Statistics implements IStatistics {
 	}
 
 	@Override
-	public BigDecimal calculateTotalTax(BigDecimal totalIncome, BigDecimal maintenceCost, BigDecimal repairCost) {
-		BigDecimal temp = totalIncome.subtract(maintenceCost).subtract(repairCost);
+	public BigDecimal calculateTotalTax(BigDecimal totalIncome, BigDecimal maintenceCost, BigDecimal repairCost,
+			BigDecimal totalCost) {
+		BigDecimal temp = totalIncome.subtract(maintenceCost).subtract(repairCost).subtract(totalCost);
 		return temp.multiply(BigDecimal.valueOf(conf.getTax())).setScale(conf.getBigDecimalRound(),
 				RoundingMode.HALF_UP);
 	}

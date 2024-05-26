@@ -1,5 +1,7 @@
 package net.etfbl.pj2.util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.TreeMap;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -18,6 +21,8 @@ import net.etfbl.pj2.model.TransportVehicle;
 import net.etfbl.pj2.model.User;
 import net.etfbl.pj2.rental.Rental;
 import net.etfbl.pj2.resources.AppConfig;
+import net.etfbl.pj2.statistics.DailyReport;
+import net.etfbl.pj2.statistics.ReportFileManager;
 
 public class Util {
 
@@ -25,17 +30,13 @@ public class Util {
 		return UUID.randomUUID().toString().replace("-", "").substring(0, length);
 	}
 
-	 public static void populateUser(List<Rental> rentals, List<TransportVehicle> vehicles) {
-	        Map<String, TransportVehicle> vehicleMap = vehicles.stream()
-	                .filter(vehicle -> vehicle instanceof Car)
-	                .collect(Collectors.toMap(TransportVehicle::getId, Function.identity()));
+	public static void populateUser(List<Rental> rentals, List<TransportVehicle> vehicles) {
+		Map<String, TransportVehicle> vehicleMap = vehicles.stream().filter(vehicle -> vehicle instanceof Car)
+				.collect(Collectors.toMap(TransportVehicle::getId, Function.identity()));
 
-	        rentals.stream()
-	                .filter(rental -> vehicleMap.containsKey(rental.getVehicleId()))
-	                .map(Rental::getUser)
-	                .filter(Objects::nonNull)
-	                .forEach(User::generateDocumentation);
-	    }
+		rentals.stream().filter(rental -> vehicleMap.containsKey(rental.getVehicleId())).map(Rental::getUser)
+				.filter(Objects::nonNull).forEach(User::generateDocumentation);
+	}
 
 	private static boolean isValid(int x, int y, int n, int m) {
 		return (x >= 0 && x < n && y >= 0 && y < m);
@@ -43,8 +44,8 @@ public class Util {
 
 	public static List<Field> calculateShortesPath(Field start, Field end) {
 		AppConfig conf = new AppConfig();
-		int n = conf.getTableLength();
-		int m = conf.getTableWidth();
+		int n = conf.getTableXMax() + 1;
+		int m = conf.getTableYMax() + 1;
 
 		Queue<Field> queue = new LinkedList<Field>();
 		queue.offer(start);
@@ -104,7 +105,29 @@ public class Util {
 				.collect(Collectors.toList());
 
 		AppConfig conf = new AppConfig();
-		//invoices.forEach(invoice ->System.out.println(invoice));
+		// invoices.forEach(invoice ->System.out.println(invoice));
 		return invoices;
+	}
+
+	public static void generateDailyReports(List<Invoice> invoices) {
+		Map<LocalDate, List<Invoice>> dailyInvoices = groupeInvoicesByDate(invoices);
+
+		for (Map.Entry<LocalDate, List<Invoice>> entry : dailyInvoices.entrySet()) {
+			LocalDate date = entry.getKey();
+			List<Invoice> invoicesForDay = entry.getValue();
+			DailyReport dailyReport = new DailyReport(invoicesForDay);
+			ReportFileManager.saveReportToTextFile(dailyReport, date);
+		}
+
+	}
+
+	public static Map<LocalDate, List<Invoice>> groupeInvoicesByDate(List<Invoice> invoices) {
+		return invoices.stream().collect(Collectors.groupingBy(
+				invoice -> invoice.getRental().getStartTime().toLocalDate(), TreeMap::new, Collectors.toList()));
+	}
+
+	public static Map<LocalDateTime, List<Invoice>> groupeInvoicesByTime(List<Invoice> invoices) {
+		return invoices.stream().collect(Collectors.groupingBy(
+				invoice -> invoice.getRental().getStartTime(), TreeMap::new, Collectors.toList()));
 	}
 }

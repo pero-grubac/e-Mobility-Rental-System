@@ -2,6 +2,8 @@ package net.etfbl.pj2.model;
 
 import java.io.Serializable;
 
+import net.etfbl.pj2.resources.AppConfig;
+
 public class ElectricBike extends TransportVehicle {
 	private Integer rangePerCharge;
 
@@ -10,7 +12,7 @@ public class ElectricBike extends TransportVehicle {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ElectricBike(String id, String manufacturer, String model, Double purchasePrice, String batteryLevel,
+	public ElectricBike(String id, String manufacturer, String model, Double purchasePrice, Double batteryLevel,
 			Integer rangePerCharge) {
 		super(id, manufacturer, model, purchasePrice, batteryLevel);
 		this.rangePerCharge = rangePerCharge;
@@ -23,13 +25,18 @@ public class ElectricBike extends TransportVehicle {
 
 	@Override
 	public void chargeBattery() {
-		// TODO Auto-generated method stub
+		AppConfig conf = new AppConfig();
+		setBatteryLevel(conf.getBatteryMaxLevel());
 
 	}
 
 	@Override
 	public void drainBattery() {
-		// TODO Auto-generated method stub
+		AppConfig conf = new AppConfig();
+		if (getBatteryLevel() == null || getBatteryLevel() <= conf.getBatteryMinLevel())
+			chargeBattery();
+		setBatteryLevel(getBatteryLevel() - conf.getBikeBatteryDrain());
+
 
 	}
 

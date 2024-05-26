@@ -21,7 +21,7 @@ public class Rental {
 	private transient List<Field> shortestPath;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
-	private Integer durationInSeconds;
+	private Long durationInSeconds;
 	// private Boolean isWideArea;
 	private Boolean isPromotion;
 	private Boolean isDiscount;
@@ -29,7 +29,7 @@ public class Rental {
 	private Boolean isBreakdown;
 
 	public Rental(String username, String vehicleId, Field startLocation, Field endLocation, LocalDateTime startTime,
-			Integer durationInSeconds, Boolean isPromotion, Boolean isBreakdown) {
+			Long durationInSeconds, Boolean isPromotion, Boolean isBreakdown) {
 		super();
 		this.user = new User(username);
 		this.vehicleId = vehicleId;
@@ -123,6 +123,26 @@ public class Rental {
 
 	public void setEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
+	}
+
+	public Long getDurationInSeconds() {
+		return durationInSeconds;
+	}
+
+	public void setDurationInSeconds(Long durationInSeconds) {
+		this.durationInSeconds = durationInSeconds;
+	}
+
+	public static Integer getDiscount() {
+		return discount;
+	}
+
+	public static void setDiscount(Integer discount) {
+		Rental.discount = discount;
+	}
+
+	public static DateTimeFormatter getDateTimeFormatter() {
+		return DATE_TIME_FORMATTER;
 	}
 
 	@Override

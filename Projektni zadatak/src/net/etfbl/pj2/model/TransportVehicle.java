@@ -2,6 +2,7 @@ package net.etfbl.pj2.model;
 
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public abstract class TransportVehicle implements Chargeable, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -10,14 +11,14 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 	private String manufacturer;
 	private String model;
 	private Double purchasePrice;
-	private String batteryLevel;
+	private Double batteryLevel;
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy.");
 
 	public TransportVehicle() {
 		super();
 	}
 
-	public TransportVehicle(String id, String manufacturer, String model, Double purchasePrice, String batteryLevel) {
+	public TransportVehicle(String id, String manufacturer, String model, Double purchasePrice, Double batteryLevel) {
 		super();
 		this.id = id;
 		this.manufacturer = manufacturer;
@@ -32,6 +33,7 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 		this.manufacturer = manufacturer;
 		this.model = model;
 		this.purchasePrice = purchasePrice;
+		chargeBattery();
 
 	}
 
@@ -67,20 +69,33 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 		this.purchasePrice = purchasePrice;
 	}
 
-	public String getBatteryLevel() {
+	public Double getBatteryLevel() {
 		return batteryLevel;
 	}
 
-	public void setBatteryLevel(String batteryLevel) {
+	public void setBatteryLevel(Double batteryLevel) {
 		this.batteryLevel = batteryLevel;
 	}
 
-	
-
 	@Override
 	public String toString() {
+		String batteryLevelString = (batteryLevel != null) ? String.format("%.2f%%", batteryLevel ) : "N/A";
 		return "id= " + id + ", manufacturer= " + manufacturer + ", model= " + model + ", purchasePrice= "
-				+ purchasePrice + ", batteryLevel= " + batteryLevel;
+				+ purchasePrice + ", batteryLevel= " + batteryLevelString;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		TransportVehicle that = (TransportVehicle) o;
+		return Objects.equals(id, that.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
 }

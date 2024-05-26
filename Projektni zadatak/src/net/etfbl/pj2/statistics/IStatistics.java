@@ -23,7 +23,7 @@ public interface IStatistics {
 
 	public BigDecimal calculateTotalTax();
 
-	public BigDecimal calculateTotalTax(BigDecimal totalIncome,BigDecimal maintenceCost,BigDecimal repairCost);
+	public BigDecimal calculateTotalTax(BigDecimal totalIncome,BigDecimal maintenceCost,BigDecimal repairCost,BigDecimal totalCost);
 
 	public BigDecimal calculateTotalAmountForRepairs();
 }

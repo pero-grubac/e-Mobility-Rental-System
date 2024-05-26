@@ -22,6 +22,8 @@ public class AppConfig {
 			properties.load(input);
 		} catch (IOException ex) {
 			ex.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -69,12 +71,20 @@ public class AppConfig {
 		return getIntegerProperty("USER_DOC_LENGTH");
 	}
 
-	public Integer getTableLength() {
-		return getIntegerProperty("TABLE_LENGTH");
+	public Integer getTableXMin() {
+		return getIntegerProperty("TABLE_X_MIN");
 	}
 
-	public Integer getTableWidth() {
-		return getIntegerProperty("TABLE_WIDTH");
+	public Integer getTableXMax() {
+		return getIntegerProperty("TABLE_X_MAX");
+	}
+
+	public Integer getTableYMin() {
+		return getIntegerProperty("TABLE_Y_MIN");
+	}
+
+	public Integer getTableYMax() {
+		return getIntegerProperty("TABLE_Y_MAX");
 	}
 
 	public Integer getBreakdownReasonLength() {
@@ -140,4 +150,69 @@ public class AppConfig {
 	public String getDailyReportFileName() {
 		return getProperty("DAILY_REPORT_FILE");
 	}
+
+	public String getSummaryReportFileName() {
+		return getProperty("SUMMARY_REPORT_FILE");
+	}
+
+	public String getSpecialReportFileName() {
+		return getProperty("SPECIAL_REPORT_FILE");
+	}
+
+	public Double getDefaultUnitPrice() {
+		return getDoubleProperty("DEFAUL_UNIT_PRICE");
+	}
+
+	public Integer getNarrowBeginingXAxis() {
+		return getIntegerProperty("NARROW_X_MIN");
+	}
+
+	public String getYes() {
+		return getProperty("YES");
+	}
+
+	public String getNo() {
+		return getProperty("NO");
+	}
+
+	public Integer getNarrowBeginingYAxis() {
+		return getIntegerProperty("NARROW_Y_MIN");
+	}
+
+	public Integer getNarrowEndXAxis() {
+		return getIntegerProperty("NARROW_X_MAX");
+	}
+
+	public Integer getNarrowEndYAxis() {
+		return getIntegerProperty("NARROW_Y_MAX");
+	}
+
+	public Double getBreakDownUnitPrice() {
+		return getDoubleProperty("BREAKDOWN_UNIT_PRICE");
+	}
+
+	public Double getBatteryMaxLevel() {
+		return getDoubleProperty("BATTERY_MAX_LEVEL");
+	}
+
+	public Double getBatteryMinLevel() {
+		return getDoubleProperty("BATTERY_MIN_LEVEL");
+	}
+
+	public Double getCarBatteryDrain() {
+		return getDoubleProperty("CAR_BATTERY_DRAIN");
+	}
+
+	public Double getBikeBatteryDrain() {
+		return getDoubleProperty("BIKE_BATTERY_DRAIN");
+	}
+
+	public Double getScooterBatteryDrain() {
+		return getDoubleProperty("SCOOTER_BATTERY_DRAIN");
+	}
+
+	public Integer getPauseBetweenDays() {
+		return getIntegerProperty("PAUSE_BETWEEN_DAYS");
+	}
+
 }
