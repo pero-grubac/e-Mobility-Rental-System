@@ -5,6 +5,10 @@ import java.io.Serializable;
 import net.etfbl.pj2.resources.AppConfig;
 
 public class ElectricScooter extends TransportVehicle {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer maxSpeed;
 
 	public ElectricScooter() {
@@ -25,17 +29,16 @@ public class ElectricScooter extends TransportVehicle {
 
 	@Override
 	public void chargeBattery() {
-		AppConfig conf = new AppConfig();
-		setBatteryLevel(conf.getBatteryMaxLevel());
+	
+		setBatteryLevel(getCONF().getBatteryMaxLevel());
 
 	}
 
 	@Override
 	public void drainBattery() {
-		AppConfig conf = new AppConfig();
-		if (getBatteryLevel() == null || getBatteryLevel() <= conf.getBatteryMinLevel())
+		if (getBatteryLevel() == null || (getBatteryLevel() - getCONF().getScooterBatteryDrain()) <= getCONF().getBatteryMinLevel())
 			chargeBattery();
-		setBatteryLevel(getBatteryLevel() - conf.getScooterBatteryDrain());
+		setBatteryLevel(getBatteryLevel() - getCONF().getScooterBatteryDrain());
 
 	}
 

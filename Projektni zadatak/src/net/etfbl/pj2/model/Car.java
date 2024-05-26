@@ -8,6 +8,7 @@ import net.etfbl.pj2.resources.AppConfig;
 
 public class Car extends TransportVehicle {
 
+	private static final long serialVersionUID = 1L;
 	private LocalDate purchaseDate;
 	private String description;
 
@@ -17,7 +18,7 @@ public class Car extends TransportVehicle {
 		super(id, manufacturer, model, purchasePrice, batteryLevel);
 		this.purchaseDate = purchaseDate;
 		this.description = description;
-		
+
 	}
 
 	public Car(String id, String manufacturer, String model, Double purchasePrice, LocalDate purchaseDate,
@@ -31,23 +32,21 @@ public class Car extends TransportVehicle {
 
 	@Override
 	public void chargeBattery() {
-		AppConfig conf = new AppConfig();
-		setBatteryLevel(conf.getBatteryMaxLevel());
+		setBatteryLevel(getCONF().getBatteryMaxLevel());
 	}
 
 	@Override
 	public void drainBattery() {
-		AppConfig conf = new AppConfig();
-		if (getBatteryLevel() == null || getBatteryLevel() <= conf.getBatteryMinLevel())
+		if (getBatteryLevel() == null || (getBatteryLevel() - getCONF().getCarBatteryDrain()) <= getCONF().getBatteryMinLevel())
 			chargeBattery();
-		setBatteryLevel(getBatteryLevel() - conf.getCarBatteryDrain());
+		setBatteryLevel(getBatteryLevel() - getCONF().getCarBatteryDrain());
 
 	}
 
 	@Override
 	public String toString() {
 		return "Car " + super.toString() + ", purchaseDate= "
-				+ (purchaseDate != null ? purchaseDate.format(DATE_FORMATTER) : "N/A") + ", description= "
+				+ (purchaseDate != null ? purchaseDate.format(getDateFormatter()) : "N/A") + ", description= "
 				+ description;
 	}
 

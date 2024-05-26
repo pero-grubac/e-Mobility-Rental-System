@@ -21,11 +21,11 @@ import java.util.List;
 import net.etfbl.pj2.resources.AppConfig;
 
 public class ReportFileManager {
+	private static AppConfig conf = new AppConfig();
 
 	public static void saveReportToBinaryFile(SpecialReport report) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
 		String currentDateAndTime = sdf.format(new Date());
-		AppConfig conf = new AppConfig();
 
 		String fileName = conf.getSpecialReportFileName() + conf.getReportDocType();
 		String filePath = conf.getReportFolder() + File.separator + fileName;
@@ -42,7 +42,6 @@ public class ReportFileManager {
 	}
 
 	public static SpecialReport loadReportFromBinaryFile() {
-		AppConfig conf = new AppConfig();
 
 		String fileName = conf.getSpecialReportFileName() + conf.getReportDocType();
 		String filePath = conf.getReportFolder() + File.separator + fileName;
@@ -57,7 +56,6 @@ public class ReportFileManager {
 	public static void saveReportToTextFile(DailyReport report, LocalDate date) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		String reportDate = formatter.format(date);
-		AppConfig conf = new AppConfig();
 
 		String name = (report instanceof SummaryReport) ? conf.getSummaryReportFileName()
 				: conf.getDailyReportFileName();
@@ -77,7 +75,6 @@ public class ReportFileManager {
 	}
 
 	public static List<String> loadReportFromTextFile(DailyReport report) {
-		AppConfig conf = new AppConfig();
 		String name = (report instanceof SummaryReport) ? conf.getSummaryReportFileName()
 				: conf.getDailyReportFileName();
 		File folder = new File(conf.getReportFolder());

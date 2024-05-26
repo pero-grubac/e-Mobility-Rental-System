@@ -8,6 +8,7 @@ public class User {
 	private String name;
 	private String identificationDocument;
 	private String driverLicenseNumber;
+	private static transient AppConfig conf = new AppConfig();
 
 	public User() {
 		super();
@@ -26,7 +27,6 @@ public class User {
 	}
 
 	public void generateDocumentation() {
-		AppConfig conf = new AppConfig();
 		identificationDocument = Util.generateUUID(conf.gerUserDocLength());
 		driverLicenseNumber = Util.generateUUID(conf.gerUserDocLength());
 	}

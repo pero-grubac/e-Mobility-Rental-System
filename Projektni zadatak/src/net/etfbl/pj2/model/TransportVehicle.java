@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+import net.etfbl.pj2.resources.AppConfig;
+
 public abstract class TransportVehicle implements Chargeable, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -12,8 +14,8 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 	private String model;
 	private Double purchasePrice;
 	private Double batteryLevel;
-	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy.");
-
+	private static transient final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy.");
+	private static transient AppConfig CONF = new AppConfig();
 	public TransportVehicle() {
 		super();
 	}
@@ -77,11 +79,23 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 		this.batteryLevel = batteryLevel;
 	}
 
+	public static AppConfig getCONF() {
+		return CONF;
+	}
+
+	public static void setCONF(AppConfig cONF) {
+		CONF = cONF;
+	}
+
 	@Override
 	public String toString() {
 		String batteryLevelString = (batteryLevel != null) ? String.format("%.2f%%", batteryLevel ) : "N/A";
 		return "id= " + id + ", manufacturer= " + manufacturer + ", model= " + model + ", purchasePrice= "
 				+ purchasePrice + ", batteryLevel= " + batteryLevelString;
+	}
+
+	public static DateTimeFormatter getDateFormatter() {
+		return DATE_FORMATTER;
 	}
 
 	@Override

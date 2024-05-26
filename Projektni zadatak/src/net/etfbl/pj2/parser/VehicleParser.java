@@ -41,7 +41,7 @@ public class VehicleParser {
 					String manufacturer = validateAndRetrieveString(values[1], "manufacturer");
 					String model = validateAndRetrieveString(values[2], "model");
 					LocalDate purchaseDate = values[3].isEmpty() ? null
-							: LocalDate.parse(values[3], TransportVehicle.DATE_FORMATTER);
+							: LocalDate.parse(values[3], TransportVehicle.getDateFormatter());
 					Double purchasePrice = validateAndRetrieveDouble(values[4], "purchase price");
 					Integer range = values[5].isEmpty() ? 0 : Integer.parseInt(values[5]);
 					Integer maxSpeed = values[6].isEmpty() ? 0 : Integer.parseInt(values[6]);

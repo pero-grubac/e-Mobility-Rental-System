@@ -5,6 +5,8 @@ import java.io.Serializable;
 import net.etfbl.pj2.resources.AppConfig;
 
 public class ElectricBike extends TransportVehicle {
+	
+	private static final long serialVersionUID = 1L;
 	private Integer rangePerCharge;
 
 	public ElectricBike() {
@@ -25,17 +27,15 @@ public class ElectricBike extends TransportVehicle {
 
 	@Override
 	public void chargeBattery() {
-		AppConfig conf = new AppConfig();
-		setBatteryLevel(conf.getBatteryMaxLevel());
+		setBatteryLevel(getCONF().getBatteryMaxLevel());
 
 	}
 
 	@Override
 	public void drainBattery() {
-		AppConfig conf = new AppConfig();
-		if (getBatteryLevel() == null || getBatteryLevel() <= conf.getBatteryMinLevel())
+		if (getBatteryLevel() == null || (getBatteryLevel() - getCONF().getBikeBatteryDrain()) <= getCONF().getBatteryMinLevel())
 			chargeBattery();
-		setBatteryLevel(getBatteryLevel() - conf.getBikeBatteryDrain());
+		setBatteryLevel(getBatteryLevel() - getCONF().getBikeBatteryDrain());
 
 
 	}
