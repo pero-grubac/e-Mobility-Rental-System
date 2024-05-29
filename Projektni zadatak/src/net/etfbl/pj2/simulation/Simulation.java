@@ -22,6 +22,7 @@ public class Simulation {
 
 	public void startStimulationWithSemaphore(List<Invoice> invoices, AppConfig conf) {
 		Map<LocalDate, List<Invoice>> groupedInvoices = Util.groupeInvoicesByDate(invoices);
+		long pause = (long) conf.getPauseBetweenDays() * 1000;
 
 		groupedInvoices.forEach((date, invoiceList) -> {
 			System.out.println("Processing rentals for date: " + date);
@@ -40,6 +41,7 @@ public class Simulation {
 						try {
 							semaphore.acquire();
 							processInvoice(inv);
+
 						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
 							System.err.println("Thread interrupted: " + e.getMessage());
@@ -59,14 +61,15 @@ public class Simulation {
 						System.err.println("Thread interrupted while waiting for completion: " + e.getMessage());
 					}
 				}
-
+				try {
+					System.out.println("pauza");
+					Thread.sleep(pause);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					System.err.println("Thread interrupted: " + e.getMessage());
+				}
 			});
-			try {
-				Thread.sleep((long) conf.getPauseBetweenDays() * 1000);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				System.err.println("Thread interrupted: " + e.getMessage());
-			}
+
 		});
 	}
 
@@ -94,13 +97,14 @@ public class Simulation {
 				} catch (InterruptedException | ExecutionException e) {
 					System.err.println("Error waiting for completion of invoices: " + e.getMessage());
 				}
+				try {
+					System.out.println("pauza");
+					Thread.sleep(pause);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					System.err.println("Thread interrupted: " + e.getMessage());
+				}
 			});
-			try {
-				Thread.sleep(pause);
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				System.err.println("Thread interrupted: " + e.getMessage());
-			}
 
 		});
 	}
