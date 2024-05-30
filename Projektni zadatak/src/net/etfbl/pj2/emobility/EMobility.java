@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
+import net.etfbl.pj2.gui.MainFrame;
 import net.etfbl.pj2.invoice.Invoice;
 import net.etfbl.pj2.model.Field;
 import net.etfbl.pj2.model.TransportVehicle;
@@ -33,6 +34,7 @@ import net.etfbl.pj2.util.Util;
 public class EMobility {
 	public static void main(String[] args) {
 		AppConfig conf = new AppConfig();
+		
 
 		String vehiclesPath = conf.getTestFolder() + File.separator + conf.getTestVehicle();
 		VehicleParser vehicleParser = new VehicleParser();
@@ -102,11 +104,15 @@ public class EMobility {
 		 * });
 		 */
 
-		Simulation sim = new Simulation();
+	/*	Simulation sim = new Simulation();
 		sim.startSimulationWithCompletableFuture(invoice, conf);
 		//invoice.forEach(i -> i.generateInvoice(conf));
 		System.out.println("kraj");
-
+*/
+		MainFrame mainFrame = new MainFrame(conf);
+		mainFrame.setVisible(true);
+		Simulation sim = new Simulation();
+		sim.startStimulationWithSemaphore(invoice, conf, mainFrame);
 	}
 
 	

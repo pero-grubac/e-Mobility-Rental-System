@@ -215,4 +215,23 @@ public class AppConfig {
 		return getIntegerProperty("PAUSE_BETWEEN_DAYS");
 	}
 
+	public String getIconsFolder() {
+		return getProperty("ICONS_FOLDER");
+	}
+
+	public String getFrameIcon() {
+		return getProperty("FRAME_ICON_IMAGE");
+	}
+
+	public String getDailyReportIcon() {
+		return getProperty("DAILY_REPORT_ICON");
+	}
+
+	public String getSummaryReportIcon() {
+		return getProperty("SUMMARY_REPORT_ICON");
+	}
+
+	public String getSpecialReportIcon() {
+		return getProperty("SPECIAL_REPORT_ICON");
+	}
 }

@@ -127,7 +127,15 @@ public class Util {
 	}
 
 	public static Map<LocalDateTime, List<Invoice>> groupeInvoicesByTime(List<Invoice> invoices) {
-		return invoices.stream().collect(Collectors.groupingBy(
-				invoice -> invoice.getRental().getStartTime(), TreeMap::new, Collectors.toList()));
+		return invoices.stream().collect(Collectors.groupingBy(invoice -> invoice.getRental().getStartTime(),
+				TreeMap::new, Collectors.toList()));
+	}
+
+	public static boolean isNarrowArea(int x, int y) {
+		AppConfig conf = new AppConfig();
+		if (x < conf.getNarrowBeginingXAxis() || x > conf.getNarrowEndXAxis() || y < conf.getNarrowBeginingYAxis()
+				|| y > conf.getNarrowEndYAxis())
+			return false;
+		return true;
 	}
 }
