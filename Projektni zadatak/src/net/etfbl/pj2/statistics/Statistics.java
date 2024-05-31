@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-import net.etfb.pj2.exception.UnknownVehicleException;
+import net.etfbl.pj2.exception.UnknownVehicleException;
 import net.etfbl.pj2.invoice.Invoice;
 import net.etfbl.pj2.model.Car;
 import net.etfbl.pj2.model.ElectricBike;

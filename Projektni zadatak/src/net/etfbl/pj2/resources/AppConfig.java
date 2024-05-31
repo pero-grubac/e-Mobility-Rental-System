@@ -211,8 +211,8 @@ public class AppConfig {
 		return getDoubleProperty("SCOOTER_BATTERY_DRAIN");
 	}
 
-	public Integer getPauseBetweenDays() {
-		return getIntegerProperty("PAUSE_BETWEEN_DAYS");
+	public Integer getPauseBetweenTime() {
+		return getIntegerProperty("PAUSE_BETWEEN_TIME");
 	}
 
 	public String getIconsFolder() {
@@ -233,5 +233,9 @@ public class AppConfig {
 
 	public String getSpecialReportIcon() {
 		return getProperty("SPECIAL_REPORT_ICON");
+	}
+
+	public Integer getMaxDriveTimePerUnit() {
+		return getIntegerProperty("MAX_DRIVE_TIME_PER_UNIIT_MS");
 	}
 }

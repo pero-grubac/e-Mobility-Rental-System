@@ -12,9 +12,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.etfb.pj2.exception.DuplicateException;
-import net.etfb.pj2.exception.ParsingException;
-import net.etfb.pj2.exception.UnknownVehicleException;
+import net.etfbl.pj2.exception.DuplicateException;
+import net.etfbl.pj2.exception.ParsingException;
+import net.etfbl.pj2.exception.UnknownVehicleException;
 import net.etfbl.pj2.model.Car;
 import net.etfbl.pj2.model.ElectricBike;
 import net.etfbl.pj2.model.ElectricScooter;

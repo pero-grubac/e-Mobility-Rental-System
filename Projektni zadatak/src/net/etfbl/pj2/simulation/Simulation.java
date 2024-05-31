@@ -11,14 +11,20 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import net.etfbl.pj2.model.Field;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import net.etfbl.pj2.gui.MainFrame;
 import net.etfbl.pj2.invoice.Invoice;
 import net.etfbl.pj2.model.Car;
 import net.etfbl.pj2.model.ElectricBike;
 import net.etfbl.pj2.model.ElectricScooter;
+import net.etfbl.pj2.model.TransportVehicle;
 import net.etfbl.pj2.rental.Rental;
 import net.etfbl.pj2.resources.AppConfig;
 import net.etfbl.pj2.util.Util;
@@ -27,16 +33,16 @@ public class Simulation {
 	public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-	public void startStimulationWithSemaphore(List<Invoice> invoices, AppConfig conf, MainFrame mainframe) {
+	public void startStimulationWithSemaphore(List<Invoice> invoices, AppConfig conf, MainFrame mainFrame) {
 		Map<LocalDate, List<Invoice>> groupedInvoices = Util.groupeInvoicesByDate(invoices);
-		long pause = (long) conf.getPauseBetweenDays() * 1000;
+		long pause = (long) conf.getPauseBetweenTime() * 1000;
 
 		groupedInvoices.forEach((date, invoiceList) -> {
-			mainframe.getLblDate().setText("Date: " + date.format(DATE_FORMATTER));
+			mainFrame.getLblDate().setText("Date: " + date.format(DATE_FORMATTER));
 
 			Map<LocalDateTime, List<Invoice>> groupedInvoiceByTime = Util.groupeInvoicesByTime(invoiceList);
 			groupedInvoiceByTime.forEach((time, list) -> {
-				mainframe.getLblTime().setText("Time: " + time.format(TIME_FORMATTER));
+				mainFrame.getLblTime().setText("Time: " + time.format(TIME_FORMATTER));
 
 				List<Invoice> sortedInvoices = list.stream()
 						.sorted(Comparator.comparing(i -> i.getRental().getStartTime())).collect(Collectors.toList());
@@ -47,7 +53,7 @@ public class Simulation {
 					Thread thread = new Thread(() -> {
 						try {
 							semaphore.acquire();
-							processInvoice(inv, mainframe);
+							processInvoice(inv, mainFrame, conf);
 
 						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
@@ -68,8 +74,9 @@ public class Simulation {
 						System.err.println("Thread interrupted while waiting for completion: " + e.getMessage());
 					}
 				}
+
 				try {
-					System.out.println("pauza");
+					System.out.println("pause");
 					Thread.sleep(pause);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
@@ -78,23 +85,25 @@ public class Simulation {
 			});
 
 		});
+		endMessage();
 	}
 
 	public void startSimulationWithCompletableFuture(List<Invoice> invoices, AppConfig conf, MainFrame mainFrame) {
 		Map<LocalDate, List<Invoice>> groupedInvoices = Util.groupeInvoicesByDate(invoices);
-		long pause = (long) conf.getPauseBetweenDays() * 1000;
+		long pause = (long) conf.getPauseBetweenTime() * 1000;
 		groupedInvoices.forEach((date, invoiceList) -> {
-			System.out.println("Processing rentals for date: " + date);
+			mainFrame.getLblDate().setText("Date: " + date.format(DATE_FORMATTER));
 
 			Map<LocalDateTime, List<Invoice>> groupedInvoiceByTime = Util.groupeInvoicesByTime(invoiceList);
 			groupedInvoiceByTime.forEach((time, list) -> {
-				System.out.println("Processing rentals for time: " + time.format(TIME_FORMATTER));
+				mainFrame.getLblTime().setText("Time: " + time.format(TIME_FORMATTER));
 
 				List<Invoice> sortedInvoices = list.stream()
 						.sorted(Comparator.comparing(i -> i.getRental().getStartTime())).collect(Collectors.toList());
 				List<CompletableFuture<Void>> futures = new ArrayList<>();
-				for (Invoice inv : list) {
-					CompletableFuture<Void> future = CompletableFuture.runAsync(() -> processInvoice(inv, mainFrame));
+				for (Invoice inv : sortedInvoices) {
+					CompletableFuture<Void> future = CompletableFuture
+							.runAsync(() -> processInvoice(inv, mainFrame, conf));
 
 					futures.add(future);
 				}
@@ -105,7 +114,7 @@ public class Simulation {
 					System.err.println("Error waiting for completion of invoices: " + e.getMessage());
 				}
 				try {
-					System.out.println("pauza");
+					System.out.println("pause");
 					Thread.sleep(pause);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
@@ -114,50 +123,82 @@ public class Simulation {
 			});
 
 		});
+		endMessage();
 	}
 
-	private static void processInvoice(Invoice invoice, MainFrame mainFrame) {
+	private static void processInvoice(Invoice invoice, MainFrame mainFrame, AppConfig conf) {
 		Rental rental = invoice.getRental();
 		double driveTimePerUnit = 1.0 * rental.getDurationInSeconds() / rental.getShortestPath().size();
-		long pause = (long) (driveTimePerUnit * 1000);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+		long pause = (long) ((driveTimePerUnit * 1000) > conf.getMaxDriveTimePerUnit() ? conf.getMaxDriveTimePerUnit()
+				: driveTimePerUnit * 1000);
+
 		invoice.setStartBatteryLevel(invoice.getVehicle().getBatteryLevel());
 
 		rental.getShortestPath().forEach(field -> {
 			invoice.getVehicle().drainBattery();
+			addVehicleToField(mainFrame, field, invoice.getVehicle());
 
-			String pervious = mainFrame.getLblVehicle()[field.getY()][field.getX()].getText();
-			String id = pervious + " " + invoice.getVehicle().getId();
-			mainFrame.getLblVehicle()[field.getY()][field.getX()].setText(id);
-			if (invoice.getVehicle() instanceof Car)
-				mainFrame.getPnlBoard()[field.getY()][field.getX()].setBackground(mainFrame.getCarColor());
-			else if (invoice.getVehicle() instanceof ElectricBike)
-				mainFrame.getPnlBoard()[field.getY()][field.getX()].setBackground(mainFrame.getBikeColor());
-			else if (invoice.getVehicle() instanceof ElectricScooter)
-				mainFrame.getPnlBoard()[field.getY()][field.getX()].setBackground(mainFrame.getScooterColor());
-			/*
-			 * System.out.println(field + " " + rental.getVehicleId() + " batteryLevel: " +
-			 * String.format("%.2f", invoice.getVehicle().getBatteryLevel()) + " time: " +
-			 * LocalDateTime.now().format(formatter));
-			 */
 			try {
 				Thread.sleep(pause);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				System.err.println("Thread interrupted: " + e.getMessage());
 			}
-			if (Util.isNarrowArea(field.getX(), field.getY()))
-				mainFrame.getPnlBoard()[field.getY()][field.getX()].setBackground(mainFrame.getNarrowColor());
-			else
-				mainFrame.getPnlBoard()[field.getY()][field.getX()].setBackground(mainFrame.getWideColor());
 
-			pervious = mainFrame.getLblVehicle()[field.getY()][field.getX()].getText();
-			mainFrame.getLblVehicle()[field.getY()][field.getX()]
-					.setText(pervious.replaceAll(Pattern.quote(invoice.getVehicle().getId()), "").trim());
+			removeVehicleFromField(mainFrame, field, invoice.getVehicle());
 
 			invoice.setAfterbatteryLevel(invoice.getVehicle().getBatteryLevel());
 			rental.setEndTime(rental.getStartTime().plusSeconds(rental.getDurationInSeconds()));
 		});
+		// TODO sacuvaj ivoice
 	}
 
+	private static void addVehicleToField(MainFrame mainFrame, Field field, TransportVehicle vehicle) {
+		SwingUtilities.invokeLater(() -> {
+			List<TransportVehicle> vehicleList = mainFrame.getVehicles()[field.getY()][field.getX()];
+			vehicleList.add(vehicle);
+
+			updateLabelAndPanel(mainFrame, field, vehicleList);
+		});
+	}
+
+	private static void removeVehicleFromField(MainFrame mainFrame, Field field, TransportVehicle vehicle) {
+		SwingUtilities.invokeLater(() -> {
+			List<TransportVehicle> vehicleList = mainFrame.getVehicles()[field.getY()][field.getX()];
+			vehicleList.remove(vehicle);
+
+			updateLabelAndPanel(mainFrame, field, vehicleList);
+		});
+	}
+
+	private static void updateLabelAndPanel(MainFrame mainFrame, Field field, List<TransportVehicle> vehicleList) {
+		JPanel panel = mainFrame.getPnlBoard()[field.getY()][field.getX()];
+		JLabel label = mainFrame.getLblVehicle()[field.getY()][field.getX()];
+
+		String text = vehicleList.stream().map(v -> v.getId() + "(" + String.format("%.0f", v.getBatteryLevel()) + "%)")
+				.collect(Collectors.joining(" "));
+		label.setText(text);
+
+		if (vehicleList.isEmpty()) {
+			panel.setBackground(Util.isNarrowArea(field.getX(), field.getY()) ? mainFrame.getNarrowColor()
+					: mainFrame.getWideColor());
+		} else {
+			panel.setBackground(getColorForVehicle(vehicleList.get(0), mainFrame));
+		}
+	}
+
+	private static Color getColorForVehicle(TransportVehicle vehicle, MainFrame mainFrame) {
+		if (vehicle instanceof Car) {
+			return mainFrame.getCarColor();
+		} else if (vehicle instanceof ElectricBike) {
+			return mainFrame.getBikeColor();
+		} else if (vehicle instanceof ElectricScooter) {
+			return mainFrame.getScooterColor();
+		}
+		return mainFrame.getWideColor(); 
+	}
+	
+	private static void endMessage() {
+		JOptionPane.showMessageDialog(null, "END");
+	}
 }

@@ -13,9 +13,9 @@ import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import net.etfb.pj2.exception.DuplicateException;
-import net.etfb.pj2.exception.FieldOutOfRangeException;
-import net.etfb.pj2.exception.ParsingException;
+import net.etfbl.pj2.exception.DuplicateException;
+import net.etfbl.pj2.exception.FieldOutOfRangeException;
+import net.etfbl.pj2.exception.ParsingException;
 import net.etfbl.pj2.model.Field;
 import net.etfbl.pj2.rental.Rental;
 import net.etfbl.pj2.resources.AppConfig;

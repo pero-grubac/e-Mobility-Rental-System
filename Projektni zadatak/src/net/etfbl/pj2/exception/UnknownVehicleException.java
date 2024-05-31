@@ -1,4 +1,4 @@
-package net.etfb.pj2.exception;
+package net.etfbl.pj2.exception;
 
 public class UnknownVehicleException extends Exception {
 	
