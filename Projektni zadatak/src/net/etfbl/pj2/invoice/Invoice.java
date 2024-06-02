@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -16,11 +17,17 @@ import net.etfbl.pj2.model.Car;
 import net.etfbl.pj2.model.ElectricBike;
 import net.etfbl.pj2.model.ElectricScooter;
 import net.etfbl.pj2.model.Field;
+import net.etfbl.pj2.model.Rental;
 import net.etfbl.pj2.model.TransportVehicle;
 import net.etfbl.pj2.model.User;
-import net.etfbl.pj2.rental.Rental;
 import net.etfbl.pj2.resources.AppConfig;
 
+/**
+ * Represents an invoice for a rental transaction.
+ * 
+ * @author Pero Grubač
+ * @since 2.6.2024.
+ */
 public class Invoice {
 
 	private BigDecimal totalAmount;
@@ -39,7 +46,14 @@ public class Invoice {
 	private transient Breakdown breakdown;
 	private transient Integer lengthNarrow = 0;
 	private transient Integer lengthWide = 0;
+	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy HH.mm");
 
+	/**
+	 * Constructs a new Invoice object with the provided rental and vehicle.
+	 *
+	 * @param rental  the rental associated with this invoice
+	 * @param vehicle the transport vehicle associated with this invoice
+	 */
 	public Invoice(Rental rental, TransportVehicle vehicle) {
 		this.rental = rental;
 		this.vehicle = vehicle;
@@ -49,9 +63,16 @@ public class Invoice {
 		calculateAmount(conf);
 		calculateDiscount(conf);
 		calculatePromotion(conf);
-		calculateTotal();
+		calculateTotal(conf);
 	}
 
+	/**
+	 * Calculates the basic price for the rental based on the vehicle type and
+	 * whether there was a breakdown.
+	 *
+	 * @param conf the application configuration used to retrieve pricing
+	 *             information
+	 */
 	private void calculateBasicPrice(AppConfig conf) {
 		try {
 			if (this.rental.getIsBreakdown())
@@ -74,6 +95,13 @@ public class Invoice {
 		}
 	}
 
+	/**
+	 * Calculates the distance traveled during the rental based on the rental's path
+	 * and duration.
+	 *
+	 * @param conf the application configuration used to retrieve distance
+	 *             information
+	 */
 	private void calculateDistance(AppConfig conf) {
 		distanceNarrow = conf.getDistanceNarrow();
 		distanceWide = conf.getDistanceWide();
@@ -93,32 +121,62 @@ public class Invoice {
 
 	}
 
+	/**
+	 * Calculates the discount amount based on whether a discount is applicable for
+	 * the rental.
+	 *
+	 * @param conf the application configuration used to retrieve discount
+	 *             information
+	 */
 	private void calculateDiscount(AppConfig conf) {
 		if (rental.getIsDiscount())
 			discount = basicPrice * conf.getDiscount();
 	}
 
+	/**
+	 * Calculates the promotion amount based on whether a promotion is applicable
+	 * for the rental.
+	 *
+	 * @param conf the application configuration used to retrieve promotion
+	 *             information
+	 */
 	private void calculatePromotion(AppConfig conf) {
 		if (rental.getIsPromotion())
 			promotion = basicPrice * conf.getDiscountProm();
 	}
 
+	/**
+	 * Calculates the amount to be invoiced based on the distance traveled and the
+	 * basic price.
+	 *
+	 * @param conf the application configuration used to determine rounding and
+	 *             pricing information
+	 */
 	private void calculateAmount(AppConfig conf) {
 		amount = BigDecimal.valueOf(distance * basicPrice).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
-	private void calculateTotal() {
-		AppConfig conf = new AppConfig();
+	/**
+	 * Calculates the total amount for the invoice based on the calculated amount,
+	 * discount, and promotion.
+	 * 
+	 * @param conf the application configuration used to determine rounding and
+	 *             pricing information
+	 */
+	private void calculateTotal(AppConfig conf) {
+
 		totalAmount = amount.subtract(BigDecimal.valueOf(discount + promotion)).setScale(conf.getBigDecimalRound(),
 				RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Generates and saves the invoice as a text file.
+	 *
+	 * @param conf the application configuration used to determine the file path and
+	 *             format
+	 */
 	public void generateInvoice(AppConfig conf) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
-		String currentDateAndTime = sdf.format(new Date());
-		Random rand = new Random();
-		// prebaci na endtime
-		String fileName = rental.getUser().getName() + " - " + currentDateAndTime + rand.nextInt()
+		String fileName = rental.getUser().getName() + " - " + rental.getEndTime().format(DATE_TIME_FORMATTER)
 				+ conf.getInvoiceDocType();
 
 		String filePath = conf.getInvoiceFolder() + File.separator + fileName;
@@ -138,6 +196,12 @@ public class Invoice {
 
 	}
 
+	/**
+	 * Generates the text content for the invoice based on rental and vehicle
+	 * information.
+	 *
+	 * @return the text content of the invoice
+	 */
 	private String generateInvoiceText() {
 		StringBuilder invoiceContent = new StringBuilder();
 		invoiceContent.append(rental.getUser()).append("\n");
@@ -146,8 +210,10 @@ public class Invoice {
 				.append("\n");
 		invoiceContent.append("End battery level: ").append(String.format("%.2f", endBatteryLevel)).append("%")
 				.append("\n");
-		invoiceContent.append("Start time: ").append(rental.getStartTime().format(rental.getDateTimeFormatter())).append("\n");
-		invoiceContent.append("End time: ").append(rental.getEndTime().format(rental.getDateTimeFormatter())).append("\n");
+		invoiceContent.append("Start time: ").append(rental.getStartTime().format(rental.getDateTimeFormatter()))
+				.append("\n");
+		invoiceContent.append("End time: ").append(rental.getEndTime().format(rental.getDateTimeFormatter()))
+				.append("\n");
 
 		invoiceContent.append("Start location: ").append(rental.getStartLocation()).append("\n");
 		invoiceContent.append("End location: ").append(rental.getEndLocation()).append("\n");
@@ -171,8 +237,9 @@ public class Invoice {
 		invoiceContent.append("Discount: ").append(String.format("%.2f", discount)).append("\n");
 		invoiceContent.append("Promotion: ").append(String.format("%.2f", promotion)).append("\n");
 		invoiceContent.append("Total Amount: ").append(totalAmount).append("\n");
+		invoiceContent.append("Start time: ").append(rental.getStartTime().format(DATE_TIME_FORMATTER)).append("\n");
+		invoiceContent.append("End time: ").append(rental.getEndTime().format(DATE_TIME_FORMATTER)).append("\n");
 
-// dodaj starttime i endtime
 		if (rental.getIsBreakdown()) {
 			breakdown = new Breakdown(rental.getStartTime());
 			invoiceContent.append(breakdown).append("\n");

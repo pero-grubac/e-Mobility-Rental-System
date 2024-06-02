@@ -17,19 +17,36 @@ import java.util.stream.Collectors;
 import net.etfbl.pj2.invoice.Invoice;
 import net.etfbl.pj2.model.Car;
 import net.etfbl.pj2.model.Field;
+import net.etfbl.pj2.model.Rental;
 import net.etfbl.pj2.model.TransportVehicle;
 import net.etfbl.pj2.model.User;
-import net.etfbl.pj2.rental.Rental;
 import net.etfbl.pj2.resources.AppConfig;
 import net.etfbl.pj2.statistics.DailyReport;
 import net.etfbl.pj2.statistics.ReportFileManager;
 
+/**
+ * Utility class containing various helper methods for the application.
+ * 
+ * @author Pero Grubač
+ * @since 2.6.2024.
+ */
 public class Util {
-
+	/**
+	 * Generates a UUID with the specified length.
+	 *
+	 * @param length The length of the UUID to generate.
+	 * @return A UUID string.
+	 */
 	public static String generateUUID(Integer length) {
 		return UUID.randomUUID().toString().replace("-", "").substring(0, length);
 	}
 
+	/**
+	 * Populates user documentation for rentals associated with car vehicles.
+	 *
+	 * @param rentals  The list of rentals.
+	 * @param vehicles The list of transport vehicles.
+	 */
 	public static void populateUser(List<Rental> rentals, List<TransportVehicle> vehicles) {
 		Map<String, TransportVehicle> vehicleMap = vehicles.stream().filter(vehicle -> vehicle instanceof Car)
 				.collect(Collectors.toMap(TransportVehicle::getId, Function.identity()));
@@ -42,6 +59,14 @@ public class Util {
 		return (x >= 0 && x < n && y >= 0 && y < m);
 	}
 
+	/**
+	 * Calculates the shortest path between two fields using breadth-first search
+	 * algorithm.
+	 *
+	 * @param start The starting field.
+	 * @param end   The ending field.
+	 * @return The shortest path between the start and end fields.
+	 */
 	public static List<Field> calculateShortesPath(Field start, Field end) {
 		AppConfig conf = new AppConfig();
 		int n = conf.getTableXMax() + 1;
@@ -90,14 +115,17 @@ public class Util {
 			temp = prev[temp.getX()][temp.getY()];
 		}
 		Collections.reverse(shortestPath);
-		/*
-		 * System.out.println("Najkraća putanja iz " + start + " do " + end + ":"); for
-		 * (Field f : shortestPath) System.out.println(f);
-		 * System.out.println(shortestPath.size());
-		 */
+
 		return shortestPath;
 	}
 
+	/**
+	 * Calculates invoices based on the provided rentals and vehicles.
+	 *
+	 * @param rentals  The list of rentals.
+	 * @param vehicles The list of transport vehicles.
+	 * @return A list of invoices.
+	 */
 	public static List<Invoice> calculateInvoice(List<Rental> rentals, List<TransportVehicle> vehicles) {
 		Map<String, TransportVehicle> map = vehicles.stream()
 				.collect(Collectors.toMap(TransportVehicle::getId, vehicle -> vehicle, (v1, v2) -> v1));
@@ -105,10 +133,14 @@ public class Util {
 				.collect(Collectors.toList());
 
 		AppConfig conf = new AppConfig();
-		// invoices.forEach(invoice ->System.out.println(invoice));
 		return invoices;
 	}
 
+	/**
+	 * Generates daily reports for the given list of invoices.
+	 *
+	 * @param invoices The list of invoices.
+	 */
 	public static void generateDailyReports(List<Invoice> invoices) {
 		Map<LocalDate, List<Invoice>> dailyInvoices = groupeInvoicesByDate(invoices);
 
@@ -121,16 +153,35 @@ public class Util {
 
 	}
 
+	/**
+	 * Groups invoices by date.
+	 *
+	 * @param invoices The list of invoices to be grouped.
+	 * @return A map of invoices grouped by date.
+	 */
 	public static Map<LocalDate, List<Invoice>> groupeInvoicesByDate(List<Invoice> invoices) {
 		return invoices.stream().collect(Collectors.groupingBy(
 				invoice -> invoice.getRental().getStartTime().toLocalDate(), TreeMap::new, Collectors.toList()));
 	}
 
+	/**
+	 * Groups invoices by time.
+	 *
+	 * @param invoices The list of invoices to be grouped.
+	 * @return A map of invoices grouped by time.
+	 */
 	public static Map<LocalDateTime, List<Invoice>> groupeInvoicesByTime(List<Invoice> invoices) {
 		return invoices.stream().collect(Collectors.groupingBy(invoice -> invoice.getRental().getStartTime(),
 				TreeMap::new, Collectors.toList()));
 	}
 
+	/**
+	 * Determines whether a given position is within the narrow area.
+	 *
+	 * @param x The x-coordinate of the position.
+	 * @param y The y-coordinate of the position.
+	 * @return True if the position is within the narrow area, false otherwise.
+	 */
 	public static boolean isNarrowArea(int x, int y) {
 		AppConfig conf = new AppConfig();
 		if (x < conf.getNarrowBeginingXAxis() || x > conf.getNarrowEndXAxis() || y < conf.getNarrowBeginingYAxis()

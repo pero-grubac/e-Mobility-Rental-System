@@ -1,19 +1,23 @@
-Total Income: 220.74
+Total Income: 50.42
 Total Discount: 0.05
 Total Promotions: 0.09
 Total Income in Wide Area: 5.03
 Total Income in Narrow Area: 1.52
-Total Amount for Maintenance: 44.15
+Total Amount for Maintenance: 10.08
 Total Amount for Repairs: 9735.00
-List of Unique Vehicles: 
-   ElectricScooter id= T1, manufacturer= T, model= TM1, purchasePrice= 1000.0, batteryLevel= 100,00%, maxSpeed= 50
-   ElectricScooter id= T2, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricBike id= B1, manufacturer= B, model= BM1, purchasePrice= 3000.0, batteryLevel= 100,00%, rangePerCharge= 100
-   Car id= A3, manufacturer= A, model= M3, purchasePrice= 75000.0, batteryLevel= 100,00%, purchaseDate= 9.5.2024., description= primjer 3
-   ElectricScooter id= T3, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricScooter id= T7, manufacturer= T, model= TM3, purchasePrice= 800.0, batteryLevel= 100,00%, maxSpeed= 60
-   ElectricBike id= B4, manufacturer= B, model= BM4, purchasePrice= 2700.0, batteryLevel= 100,00%, rangePerCharge= 110
-   Car id= A1, manufacturer= A, model= M1, purchasePrice= 50000.0, batteryLevel= 100,00%, purchaseDate= 1.5.2024., description= primjer 1
-   ElectricScooter id= T5, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricBike id= B2, manufacturer= B, model= BM2, purchasePrice= 2500.0, batteryLevel= 100,00%, rangePerCharge= 75
-   ElectricScooter id= T9, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
+List of incomes: 
+   2.86
+   3.46
+   0.00
+   4.80
+   3.02
+   3.74
+   6.00
+   0.00
+   0.00
+   3.43
+   1.56
+   2.67
+   14.58
+   4.30
+   0.00

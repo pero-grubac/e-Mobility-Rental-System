@@ -1,19 +1,49 @@
-Total Income: 282.15
-Total Discount: 0.03
-Total Promotions: 0.13
-Total Income in Wide Area: 7.94
-Total Income in Narrow Area: 3.57
-Total Amount for Maintenance: 56.43
-Total Amount for Repairs: 8270.00
-List of Unique Vehicles: 
-   ElectricScooter id= T2, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricScooter id= T4, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   Car id= A2, manufacturer= A, model= M2, purchasePrice= 35000.0, batteryLevel= 100,00%, purchaseDate= 16.5.2024., description= primjer 2
-   ElectricScooter id= T3, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricScooter id= T7, manufacturer= T, model= TM3, purchasePrice= 800.0, batteryLevel= 100,00%, maxSpeed= 60
-   Car id= A3, manufacturer= A, model= M3, purchasePrice= 75000.0, batteryLevel= 100,00%, purchaseDate= 9.5.2024., description= primjer 3
-   ElectricScooter id= T10, manufacturer= T, model= TM3, purchasePrice= 800.0, batteryLevel= 100,00%, maxSpeed= 60
-   ElectricBike id= B2, manufacturer= B, model= BM2, purchasePrice= 2500.0, batteryLevel= 100,00%, rangePerCharge= 75
-   ElectricScooter id= T8, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricScooter id= T6, manufacturer= T, model= TM2, purchasePrice= 500.0, batteryLevel= 100,00%, maxSpeed= 30
-   ElectricScooter id= T1, manufacturer= T, model= TM1, purchasePrice= 1000.0, batteryLevel= 100,00%, maxSpeed= 50
+Total Income: 246.89
+Total Discount: 0.11
+Total Promotions: 0.32
+Total Income in Wide Area: 18.43
+Total Income in Narrow Area: 7.87
+Total Amount for Maintenance: 49.38
+Total Amount for Repairs: 24475.00
+List of incomes: 
+   2.86
+   3.46
+   0.00
+   4.80
+   3.02
+   3.74
+   6.00
+   0.00
+   0.00
+   3.43
+   1.56
+   2.67
+   14.58
+   4.30
+   0.00
+   5.04
+   3.78
+   35.92
+   18.14
+   3.40
+   4.56
+   12.67
+   2.13
+   5.88
+   2.45
+   4.10
+   7.20
+   4.08
+   7.02
+   5.60
+   3.24
+   9.79
+   12.88
+   11.52
+   5.15
+   11.88
+   1.44
+   0.86
+   8.40
+   3.56
+   5.78

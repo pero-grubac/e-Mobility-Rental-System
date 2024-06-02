@@ -1,0 +1,21 @@
+User: [name=K1, identificationDocument=none, driverLicenseNumber=none]
+Vehicle ID: T6
+Start battery level: 62,00%
+End battery level: 18,00%
+Start time: 3.6.2024 10:00
+End time: 3.6.2024 10:00
+Start location: (1,8)
+End location: (16,2)
+Length: 22
+Distance Narrow Area: 1,00 (x0)
+Distance Wide Area: 1,20 (x22)
+Duration: 00:00:15
+Distance: 396,00
+Basic Price: 0,03
+Amount: 11.88
+Discount: 0,00
+Promotion: 0,00
+Total Amount: 11.88
+Start time: 3.6.2024 10.00
+End time: 3.6.2024 10.00
+Breakdown: No

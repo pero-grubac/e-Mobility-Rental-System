@@ -1,0 +1,21 @@
+User: [name=K4, identificationDocument=none, driverLicenseNumber=none]
+Vehicle ID: T3
+Start battery level: 88,00%
+End battery level: 32,00%
+Start time: 2.6.2024 09:30
+End time: 2.6.2024 09:30
+Start location: (2,2)
+End location: (12,19)
+Length: 28
+Distance Narrow Area: 1,00 (x0)
+Distance Wide Area: 1,20 (x28)
+Duration: 00:00:18
+Distance: 604,80
+Basic Price: 0,03
+Amount: 18.14
+Discount: 0,00
+Promotion: 0,00
+Total Amount: 18.14
+Start time: 2.6.2024 09.30
+End time: 2.6.2024 09.30
+Breakdown: No

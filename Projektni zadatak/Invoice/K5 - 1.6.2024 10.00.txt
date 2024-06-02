@@ -1,0 +1,21 @@
+User: [name=K5, identificationDocument=c680310175, driverLicenseNumber=61fc6c8bd0]
+Vehicle ID: A1
+Start battery level: 100,00%
+End battery level: 60,00%
+Start time: 1.6.2024 10:00
+End time: 1.6.2024 10:00
+Start location: (14,17)
+End location: (9,19)
+Length: 8
+Distance Narrow Area: 1,00 (x0)
+Distance Wide Area: 1,20 (x8)
+Duration: 00:00:13
+Distance: 124,80
+Basic Price: 0,00
+Amount: 0.00
+Discount: 0,00
+Promotion: 0,00
+Total Amount: 0.00
+Start time: 1.6.2024 10.00
+End time: 1.6.2024 10.00
+Breakdown: [breakdownDateTime=1.6.2024 10:00, description=106e38757b]

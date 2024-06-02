@@ -5,7 +5,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import net.etfbl.pj2.resources.AppConfig;
-
+/**
+ * Represents a transport vehicle that can be charged and drained.
+ * This is an abstract class that implements the Chargeable interface and is Serializable.
+ * 
+ *  @author Pero Grubač
+ * @since 2.6.2024.
+ */
 public abstract class TransportVehicle implements Chargeable, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -16,10 +22,21 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 	private Double batteryLevel;
 	private static transient final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d.M.yyyy.");
 	private static transient AppConfig CONF = new AppConfig();
+	 /**
+     * Constructs a new TransportVehicle object with default values.
+     */
 	public TransportVehicle() {
 		super();
 	}
-
+	 /**
+     * Constructs a new TransportVehicle object with the specified parameters.
+     * 
+     * @param id The ID of the vehicle.
+     * @param manufacturer The manufacturer of the vehicle.
+     * @param model The model of the vehicle.
+     * @param purchasePrice The purchase price of the vehicle.
+     * @param batteryLevel The battery level of the vehicle.
+     */
 	public TransportVehicle(String id, String manufacturer, String model, Double purchasePrice, Double batteryLevel) {
 		super();
 		this.id = id;
@@ -28,7 +45,15 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 		this.purchasePrice = purchasePrice;
 		this.batteryLevel = batteryLevel;
 	}
-
+	  /**
+     * Constructs a new TransportVehicle object with the specified parameters,
+     * setting the battery level to a default value and charging it.
+     * 
+     * @param id The ID of the vehicle.
+     * @param manufacturer The manufacturer of the vehicle.
+     * @param model The model of the vehicle.
+     * @param purchasePrice The purchase price of the vehicle.
+     */
 	public TransportVehicle(String id, String manufacturer, String model, Double purchasePrice) {
 		super();
 		this.id = id;
@@ -89,7 +114,7 @@ public abstract class TransportVehicle implements Chargeable, Serializable {
 
 	@Override
 	public String toString() {
-		String batteryLevelString = (batteryLevel != null) ? String.format("%.2f%%", batteryLevel ) : "N/A";
+		String batteryLevelString = (batteryLevel != null) ? String.format("%.2f%%", batteryLevel ) : "0";
 		return "id= " + id + ", manufacturer= " + manufacturer + ", model= " + model + ", purchasePrice= "
 				+ purchasePrice + ", batteryLevel= " + batteryLevelString;
 	}

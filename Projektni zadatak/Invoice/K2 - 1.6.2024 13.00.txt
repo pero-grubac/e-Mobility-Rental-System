@@ -1,0 +1,21 @@
+User: [name=K2, identificationDocument=none, driverLicenseNumber=none]
+Vehicle ID: B2
+Start battery level: 100,00%
+End battery level: 19,00%
+Start time: 1.6.2024 13:00
+End time: 1.6.2024 13:00
+Start location: (16,18)
+End location: (7,1)
+Length: 27
+Distance Narrow Area: 1,00 (x0)
+Distance Wide Area: 1,20 (x27)
+Duration: 00:00:09
+Distance: 291,60
+Basic Price: 0,05
+Amount: 14.58
+Discount: 0,00
+Promotion: 0,00
+Total Amount: 14.58
+Start time: 1.6.2024 13.00
+End time: 1.6.2024 13.00
+Breakdown: No

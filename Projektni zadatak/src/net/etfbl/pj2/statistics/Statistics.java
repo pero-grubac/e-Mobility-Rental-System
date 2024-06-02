@@ -13,33 +13,64 @@ import net.etfbl.pj2.model.Field;
 import net.etfbl.pj2.model.TransportVehicle;
 import net.etfbl.pj2.resources.AppConfig;
 
+/**
+ * Class for calculating statistics related to rentals and expenses.
+ * 
+ * @author Pero Grubač
+ * @since 2.6.2024.
+ */
 public class Statistics implements IStatistics {
 	private List<Invoice> invoices;
 	private AppConfig conf = new AppConfig();
 
+	/**
+	 * Constructs a Statistics object with the given list of invoices.
+	 *
+	 * @param invoices The list of invoices.
+	 */
 	public Statistics(List<Invoice> invoices) {
 		super();
 		this.invoices = invoices;
 	}
 
+	/**
+	 * Calculates the total income from all invoices.
+	 *
+	 * @return The total income.
+	 */
 	@Override
 	public BigDecimal calculateTotalIncome() {
 		return invoices.stream().map(Invoice::getTotalAmount).reduce(BigDecimal.ZERO, BigDecimal::add)
 				.setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total discount applied to all invoices.
+	 *
+	 * @return The total discount amount.
+	 */
 	@Override
 	public BigDecimal calculateTotalDiscount() {
 		return BigDecimal.valueOf(invoices.stream().mapToDouble(Invoice::getDiscount).sum())
 				.setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total amount of promotions applied to all invoices.
+	 *
+	 * @return The total promotion amount.
+	 */
 	@Override
 	public BigDecimal calculateTotalPromotions() {
 		return BigDecimal.valueOf(invoices.stream().mapToDouble(Invoice::getPromotion).sum())
 				.setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total income earned in wide areas based on invoice data.
+	 *
+	 * @return The total income in wide areas.
+	 */
 	@Override
 	public BigDecimal calculateTotalIncomeInWideArea() {
 		Double temp = 0.0;
@@ -52,6 +83,11 @@ public class Statistics implements IStatistics {
 		return BigDecimal.valueOf(temp).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total income earned in narrow areas based on invoice data.
+	 *
+	 * @return The total income in narrow areas.
+	 */
 	@Override
 	public BigDecimal calculateTotalIncomeInNarrowArea() {
 		Double temp = 0.0;
@@ -63,26 +99,48 @@ public class Statistics implements IStatistics {
 		return BigDecimal.valueOf(temp).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total amount spent on maintenance.
+	 *
+	 * @return The total maintenance cost.
+	 */
 	@Override
-	public BigDecimal calculateTotalAmountForMaintence() {
+	public BigDecimal calculateTotalAmountForMaintenance() {
 		return calculateTotalIncome().multiply(BigDecimal.valueOf(conf.getMaintenceCost()))
 				.setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total cost considering income, maintenance, and repair
+	 * expenses.
+	 *
+	 * @return The total cost.
+	 */
 	@Override
 	public BigDecimal calculateTotalCost() {
 		return calculateTotalIncome().multiply(BigDecimal.valueOf(conf.getTotalCostPer()))
 				.setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total tax applied to the income after deducting maintenance,
+	 * repair, and total cost.
+	 *
+	 * @return The total tax amount.
+	 */
 	@Override
 	public BigDecimal calculateTotalTax() {
-		BigDecimal temp = calculateTotalIncome().subtract(calculateTotalAmountForMaintence())
+		BigDecimal temp = calculateTotalIncome().subtract(calculateTotalAmountForMaintenance())
 				.subtract(calculateTotalAmountForRepairs()).subtract(calculateTotalCost());
 		return temp.multiply(BigDecimal.valueOf(conf.getTax())).setScale(conf.getBigDecimalRound(),
 				RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total amount spent on repairs.
+	 *
+	 * @return The total repair cost.
+	 */
 	@Override
 	public BigDecimal calculateTotalAmountForRepairs() {
 		Double temp = 0.0;
@@ -108,18 +166,40 @@ public class Statistics implements IStatistics {
 		return BigDecimal.valueOf(temp).setScale(conf.getBigDecimalRound(), RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total maintenance cost based on the total income.
+	 *
+	 * @param totalIncome The total income.
+	 * @return The total maintenance cost.
+	 */
 	@Override
 	public BigDecimal calculateTotalAmountForMaintence(BigDecimal totalIncome) {
 		return totalIncome.multiply(BigDecimal.valueOf(conf.getMaintenceCost())).setScale(conf.getBigDecimalRound(),
 				RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total cost based on the total income.
+	 *
+	 * @param totalIncome The total income.
+	 * @return The total cost.
+	 */
 	@Override
 	public BigDecimal calculateTotalCost(BigDecimal totalIncome) {
 		return totalIncome.multiply(BigDecimal.valueOf(conf.getTotalCostPer())).setScale(conf.getBigDecimalRound(),
 				RoundingMode.HALF_UP);
 	}
 
+	/**
+	 * Calculates the total tax applied to the income after deducting maintenance,
+	 * repair, and total cost.
+	 *
+	 * @param totalIncome   The total income.
+	 * @param maintenceCost The total maintenance cost.
+	 * @param repairCost    The total repair cost.
+	 * @param totalCost     The total cost.
+	 * @return The total tax amount.
+	 */
 	@Override
 	public BigDecimal calculateTotalTax(BigDecimal totalIncome, BigDecimal maintenceCost, BigDecimal repairCost,
 			BigDecimal totalCost) {

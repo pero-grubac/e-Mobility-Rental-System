@@ -13,13 +13,32 @@ import net.etfbl.pj2.model.ElectricBike;
 import net.etfbl.pj2.model.ElectricScooter;
 import net.etfbl.pj2.model.TransportVehicle;
 
+/**
+ * Represents a special report containing information about vehicles with the
+ * most revenue.
+ * 
+ * @author Pero Grubač
+ * @since 2.6.2024.
+ */
 public class SpecialReport implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private Map<TransportVehicle, BigDecimal> topVehiclesByIncome = new HashMap<>();
 
+	/**
+	 * Constructs a SpecialReport object based on the provided list of invoices.
+	 *
+	 * @param invoices The list of invoices to analyze.
+	 */
 	public SpecialReport(List<Invoice> invoices) {
 		findMostIncomeVehices(invoices);
 	}
 
+	/**
+	 * Finds the vehicles with the highest revenue in the provided list of invoices.
+	 *
+	 * @param invoices The list of invoices to analyze.
+	 */
 	private void findMostIncomeVehices(List<Invoice> invoices) {
 		TransportVehicle car = null;
 		BigDecimal carIncome = BigDecimal.ZERO;
@@ -48,6 +67,11 @@ public class SpecialReport implements Serializable {
 
 	}
 
+	/**
+	 * Generates the text representation of the special report.
+	 *
+	 * @return The textual representation of the special report.
+	 */
 	private String generateText() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Vehicles with the most revenue:").append("\n");
@@ -56,6 +80,14 @@ public class SpecialReport implements Serializable {
 			builder.append("    Revenue: ").append(value).append("\n");
 		});
 		return builder.toString();
+	}
+
+	public Map<TransportVehicle, BigDecimal> getTopVehiclesByIncome() {
+		return topVehiclesByIncome;
+	}
+
+	public void setTopVehiclesByIncome(Map<TransportVehicle, BigDecimal> topVehiclesByIncome) {
+		this.topVehiclesByIncome = topVehiclesByIncome;
 	}
 
 	@Override

@@ -4,14 +4,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Represents the application configuration with properties loaded from the
+ * "app.properties" file.
+ * 
+ * @author Pero Grubač
+ * @since 2.6.2024.
+ */
 public class AppConfig {
 	private Properties properties;
 
+	/**
+	 * Constructs a new AppConfig object and initializes it by loading properties
+	 * from the "app.properties" file.
+	 */
 	public AppConfig() {
 		properties = new Properties();
 		loadProperties();
 	}
 
+	/**
+	 * Loads properties from the "app.properties" file.
+	 */
 	private void loadProperties() {
 		try (InputStream input = getClass().getClassLoader()
 				.getResourceAsStream("net/etfbl/pj2/resources/app.properties")) {
@@ -237,5 +251,153 @@ public class AppConfig {
 
 	public Integer getMaxDriveTimePerUnit() {
 		return getIntegerProperty("MAX_DRIVE_TIME_PER_UNIIT_MS");
+	}
+
+	public String getColumnType() {
+		return getProperty("COLUMN_TYPE");
+	}
+
+	public String getColumnId() {
+		return getProperty("COLUMN_ID");
+	}
+
+	public String getColumnManufacturer() {
+		return getProperty("COLUMN_MANUFACTURER");
+	}
+
+	public String getColumnModel() {
+		return getProperty("COLUMN_MODEL");
+	}
+
+	public String getColumnMaxSpeed() {
+		return getProperty("COLUMN_MEX_SPEED");
+	}
+
+	public String getColumnRamgePerCharge() {
+		return getProperty("COLUMN_RANGE_PER_CHARGE");
+	}
+
+	public String getColumnRevenue() {
+		return getProperty("COLUM_REVENUE");
+	}
+
+	public String getColumnPurchaseDate() {
+		return getProperty("COLUMN_PURCHASE_DATE");
+	}
+
+	public String getColumnPurchasePrice() {
+		return getProperty("COLUM_PURCHASE_PRICE");
+	}
+
+	public String getColumnDescription() {
+		return getProperty("COLUMN_DESCRIPTION");
+	}
+
+	public String getColumnBatteryLevel() {
+		return getProperty("COLUMN_BATTERY_LEVEL");
+	}
+
+	public String getCarColor() {
+		return getProperty("CAR_COLOR");
+	}
+
+	public String getBikeColor() {
+		return getProperty("BIKE_COLOR");
+	}
+
+	public String getScooterColor() {
+		return getProperty("SCOOTER_COLOR");
+	}
+
+	public String getWideAreaColor() {
+		return getProperty("WIDE_ARE_COLOR");
+	}
+
+	public String getNarrowColor() {
+		return getProperty("NARROOW_AREA_COLOR");
+	}
+
+	public String getBackgroundColor() {
+		return getProperty("BACKGROUND_COLOR");
+	}
+
+	public String getLabelTime() {
+		return getProperty("LABEL_TIME");
+	}
+
+	public String getLabelDate() {
+		return getProperty("LABEL_DATE");
+	}
+
+	public String getDailyReportName() {
+		return getProperty("DAILY_REPORT_NAME");
+	}
+
+	public String getSummaryReportName() {
+		return getProperty("SUMMARY_REPORT_NAME");
+	}
+
+	public String getSpecialReportName() {
+		return getProperty("SPECIAL_REPORT_NAME");
+	}
+
+	public String getMenuReport() {
+		return getProperty("MENU_REPORT");
+	}
+
+	public String getColumnTotalIncome() {
+		return getProperty("COLUMN_TOTAL_INCOME");
+	}
+
+	public String getColumnTotalDiscount() {
+		return getProperty("COLUMN_TOTAL_DISCOUNT");
+	}
+
+	public String getColumnTotalPromotion() {
+		return getProperty("COLUMN_TOTAL_PROMOTION");
+	}
+
+	public String getColumnWideAreaIncome() {
+		return getProperty("COLUMN_WIDE_AREA_INCOME");
+	}
+
+	public String getColumnnNarrowAreaIncome() {
+		return getProperty("COLUMN_NARROW_AREA_INCOME");
+	}
+
+	public String getColumnMaintenance() {
+		return getProperty("COLUM_MAINTENANCE");
+	}
+
+	public String getColumnRepairs() {
+		return getProperty("COLUMN_REPAIRS");
+	}
+
+	public String getColumnTax() {
+		return getProperty("COLUMN_TOTAL_TAX");
+	}
+
+	public String getColumnCost() {
+		return getProperty("COLUMN_TOTAL_COST");
+	}
+
+	public String getAppTitle() {
+		return getProperty("APP_TITLE");
+	}
+
+	public String getCarName() {
+		return getProperty("CAR_NAME");
+	}
+
+	public String getScooterName() {
+		return getProperty("BIKE_NAME");
+	}
+
+	public String getBikeName() {
+		return getProperty("SCOOTER_NAME");
+	}
+
+	public String getEndMessager() {
+		return getProperty("END_MESSAGE");
 	}
 }
