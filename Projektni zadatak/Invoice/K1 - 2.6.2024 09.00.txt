@@ -1,4 +1,4 @@
-User: [name=K1, identificationDocument=b7b514141a, driverLicenseNumber=16b9cd0c12]
+User: [name=K1, identificationDocument=4ec5cb949f, driverLicenseNumber=1e49563f7d]
 Vehicle ID: A2
 Start battery level: 100,00%
 End battery level: 95,00%

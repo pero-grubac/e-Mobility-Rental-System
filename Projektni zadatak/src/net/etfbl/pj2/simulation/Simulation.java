@@ -178,7 +178,9 @@ public class Simulation {
 		double driveTimePerUnit = 1.0 * rental.getDurationInSeconds() / rental.getShortestPath().size();
 		long pause = (long) ((driveTimePerUnit * 1000) > conf.getMaxDriveTimePerUnit() ? conf.getMaxDriveTimePerUnit()
 				: driveTimePerUnit * 1000);
-
+		// pause = (long)(driveTimePerUnit*conf.getMaxDriveTimePerUnit()); // usporenje
+		
+		
 		invoice.setStartBatteryLevel(invoice.getVehicle().getBatteryLevel());
 
 		rental.getShortestPath().forEach(field -> {

@@ -1,0 +1,51 @@
+Total Income: 246.89
+Total Discount: 0.11
+Total Promotions: 0.32
+Total Income in Wide Area: 18.43
+Total Income in Narrow Area: 7.87
+Total Amount for Maintenance: 49.38
+Total Amount for Repairs: 24475.00
+Total Tax: -2432.69
+Total cost: 49.38
+List of incomes: 
+   2.86
+   3.46
+   0.00
+   4.80
+   3.02
+   3.74
+   6.00
+   0.00
+   0.00
+   3.43
+   1.56
+   2.67
+   14.58
+   4.30
+   0.00
+   5.04
+   3.78
+   35.92
+   18.14
+   3.40
+   4.56
+   12.67
+   2.13
+   5.88
+   2.45
+   4.10
+   7.20
+   4.08
+   7.02
+   5.60
+   3.24
+   9.79
+   12.88
+   11.52
+   5.15
+   11.88
+   1.44
+   0.86
+   8.40
+   3.56
+   5.78

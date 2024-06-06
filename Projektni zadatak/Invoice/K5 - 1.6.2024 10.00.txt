@@ -1,4 +1,4 @@
-User: [name=K5, identificationDocument=c680310175, driverLicenseNumber=61fc6c8bd0]
+User: [name=K5, identificationDocument=4e276af351, driverLicenseNumber=4bcabb2323]
 Vehicle ID: A1
 Start battery level: 100,00%
 End battery level: 60,00%
@@ -18,4 +18,4 @@ Promotion: 0,00
 Total Amount: 0.00
 Start time: 1.6.2024 10.00
 End time: 1.6.2024 10.00
-Breakdown: [breakdownDateTime=1.6.2024 10:00, description=106e38757b]
+Breakdown: [breakdownDateTime=1.6.2024 10:00, description=1b8df7a77e]

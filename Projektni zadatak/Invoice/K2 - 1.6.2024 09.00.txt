@@ -18,4 +18,4 @@ Promotion: 0,00
 Total Amount: 0.00
 Start time: 1.6.2024 09.00
 End time: 1.6.2024 09.00
-Breakdown: [breakdownDateTime=1.6.2024 09:00, description=6551b93bee]
+Breakdown: [breakdownDateTime=1.6.2024 09:00, description=7536616ae7]
