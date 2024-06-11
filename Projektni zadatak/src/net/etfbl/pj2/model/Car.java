@@ -18,6 +18,7 @@ public class Car extends TransportVehicle {
 	private static final long serialVersionUID = 1L;
 	private LocalDate purchaseDate;
 	private String description;
+	private boolean multipleUsers=true;
 
 	/**
 	 * Default constructor for the {@code Car} class.
