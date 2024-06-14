@@ -1,7 +1,7 @@
 User: [name=K3, identificationDocument=none, driverLicenseNumber=none]
 Vehicle ID: T7
-Start battery level: 36,00%
-End battery level: 90,00%
+Start battery level: 100,00%
+End battery level: 56,00%
 Start time: 2.6.2024 10:00
 End time: 2.6.2024 10:00
 Start location: (18,5)

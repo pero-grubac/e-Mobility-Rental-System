@@ -42,8 +42,12 @@ public class SummaryReport extends DailyReport {
 	@Override
 	protected String generateReportText() {
 		StringBuilder reportContent = new StringBuilder(super.generateReportText());
-		reportContent.append("Total Tax: ").append(totalTax).append("\n");
-		reportContent.append("Total cost: ").append(totalCost).append("\n");
+		try {
+			reportContent.append("Total Tax: ").append(totalTax).append("\n");
+			reportContent.append("Total cost: ").append(totalCost).append("\n");
+		} catch (Exception e) {
+			System.err.println("Error "+e.getMessage());
+		}
 		return reportContent.toString();
 	}
 

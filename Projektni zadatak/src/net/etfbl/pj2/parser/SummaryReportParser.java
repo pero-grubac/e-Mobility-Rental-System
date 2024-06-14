@@ -29,16 +29,16 @@ public class SummaryReportParser {
 	 * 
 	 * @return A map containing parsed summary reports.
 	 */
-	public Map<String, SummaryReport> parseDailyReport() {
+	public Map<String, SummaryReport> parseSummaryReport() {
 		Map<String, String> reports = ReportFileManager.loadReportFromTextFile(new SummaryReport());
-		Map<String, SummaryReport> dailyReports = new HashMap<>();
+		Map<String, SummaryReport> summaryReports = new HashMap<>();
 
 		reports.forEach((name, text) -> {
 			SummaryReport report = parseText(text);
-			dailyReports.put(name, report);
+			summaryReports.put(name, report);
 		});
 
-		return dailyReports;
+		return summaryReports;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class SummaryReportParser {
 					report.setTotalAmountForMaintenance(parseBigDecimal(line));
 				} else if (line.startsWith("Total Amount for Repairs:")) {
 					report.setTotalAmountForRepairs(parseBigDecimal(line));
-				} else if (line.startsWith("Total Tax::")) {
+				} else if (line.startsWith("Total Tax:")) {
 					report.setTotalTax(parseBigDecimal(line));
 				} else if (line.startsWith("Total cost:")) {
 					report.setTotalCost(parseBigDecimal(line));
@@ -91,6 +91,13 @@ public class SummaryReportParser {
 	 * @return The parsed BigDecimal value.
 	 */
 	private BigDecimal parseBigDecimal(String line) {
-		return new BigDecimal(line.split(":")[1].trim());
+		String valueString = line.split(":")[1].trim();
+		 valueString = valueString.replaceAll("\\s+", "");
+	    if (valueString.startsWith("-")) {	       
+	        valueString = valueString.substring(1); 
+	        return new BigDecimal(valueString).negate();
+	    } else {        
+	        return new BigDecimal(valueString);
+	    }
 	}
 }

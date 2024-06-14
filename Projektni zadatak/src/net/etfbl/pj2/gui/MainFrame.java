@@ -162,7 +162,7 @@ public class MainFrame extends GeneralFrame {
 				DailyReportParser dailyReportParser = new DailyReportParser();
 				Map<String, DailyReport> dailyReports = dailyReportParser.parseDailyReport();
 				dailyReports.forEach((date, report) -> {
-					ReportFrame reportFrame = new ReportFrame(getConf(), dailyReport, date);
+					ReportFrame reportFrame = new ReportFrame(getConf(), report, date);
 					reportFrame.setVisible(true);
 				});
 
@@ -177,9 +177,9 @@ public class MainFrame extends GeneralFrame {
 				SummaryReport summaryReport = new SummaryReport(invoices);
 				ReportFileManager.saveReportToTextFile(summaryReport, currentDate);
 				SummaryReportParser summaryReportParser = new SummaryReportParser();
-				Map<String, SummaryReport> summeryReports = summaryReportParser.parseDailyReport();
+				Map<String, SummaryReport> summeryReports = summaryReportParser.parseSummaryReport();
 				summeryReports.forEach((date, report) -> {
-					ReportFrame reportFrame = new ReportFrame(getConf(), summaryReport, date);
+					ReportFrame reportFrame = new ReportFrame(getConf(), report, date);
 					reportFrame.setVisible(true);
 				});
 			}

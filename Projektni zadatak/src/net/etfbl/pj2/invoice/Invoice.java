@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import net.etfbl.pj2.breakdown.Breakdown;
 import net.etfbl.pj2.exception.UnknownVehicleException;
@@ -176,7 +178,8 @@ public class Invoice {
 	 *             format
 	 */
 	public void generateInvoice(AppConfig conf) {
-		String fileName = rental.getUser().getName() + " - " + rental.getEndTime().format(DATE_TIME_FORMATTER)
+		
+		 String fileName = rental.getUser().getName() + " - " + rental.getEndTime().format(DATE_TIME_FORMATTER)
 				+ conf.getInvoiceDocType();
 
 		String filePath = conf.getInvoiceFolder() + File.separator + fileName;
@@ -184,7 +187,7 @@ public class Invoice {
 		if (!invoiceFolder.exists()) {
 			invoiceFolder.mkdir();
 		}
-
+		
 		try (FileWriter writer = new FileWriter(filePath)) {
 			writer.write(generateInvoiceText());
 			System.out.println("Invoice saved successfully: " + filePath);

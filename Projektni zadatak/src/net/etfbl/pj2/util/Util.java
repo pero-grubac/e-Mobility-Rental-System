@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
+import java.util.Random;
 import java.util.TreeMap;
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -37,10 +37,24 @@ public class Util {
 	 * @param length The length of the UUID to generate.
 	 * @return A UUID string.
 	 */
-	public static String generateUUID(Integer length) {
-		return UUID.randomUUID().toString().replace("-", "").substring(0, length);
-	}
+	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	private static final Random RANDOM = new Random();
+	public static String generateUUID(int length) {
+        if (length < 1) {
+            throw new IllegalArgumentException("Dužina mora biti veća od 0.");
+        }
 
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
+        }
+
+        return sb.toString();
+    }
+	/*
+	 * public static String generateUUID(Integer length) { return
+	 * UUID.randomUUID().toString().replace("-", "").substring(0, length); }
+	 */
 	/**
 	 * Populates user documentation for rentals associated with car vehicles.
 	 *
@@ -120,7 +134,6 @@ public class Util {
 	}
 
 	/**
-	 * Calculates invoices based on the provided rentals and vehicles.
 	 *
 	 * @param rentals  The list of rentals.
 	 * @param vehicles The list of transport vehicles.

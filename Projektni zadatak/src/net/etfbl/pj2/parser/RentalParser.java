@@ -8,8 +8,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -191,26 +193,43 @@ public class RentalParser {
 	 */
 	private List<Rental> validateRental(List<Rental> rentals) {
 		List<Rental> newRental = new ArrayList<>();
-		Map<String, LocalDateTime> lastRentalEndTimes = new HashMap<>();
+        Map<String, LocalDateTime> lastRentalEndTimes = new HashMap<>();
+        Map<String, LocalDateTime> userRentalEndTimes = new HashMap<>();
+        Set<String> userVehiclePairs = new HashSet<>();
 
-		for (Rental rental : rentals) {
-			try {
-				LocalDateTime lastEndTime = lastRentalEndTimes.get(rental.getVehicleId());
-				if (lastEndTime != null && lastEndTime.isAfter(rental.getStartTime())) {
-					throw new ParsingException("Vehicle " + rental.getVehicleId() + " is already rented.");
-				} else {
-					newRental.add(rental);
-					lastRentalEndTimes.put(rental.getVehicleId(),
-							rental.getStartTime().plusSeconds(rental.getDurationInSeconds()));
-				}
-			} catch (ParsingException e) {
-				System.err.println(e.getMessage());
-			} catch (Exception e) {
-				System.err.println("Error: " + e.getMessage());
-			}
-		}
+        for (Rental rental : rentals) {
+            try {
+                LocalDateTime lastEndTimeForVehicle = lastRentalEndTimes.get(rental.getVehicleId());
+                LocalDateTime lastEndTimeForUser = userRentalEndTimes.get(rental.getUser().getName());
 
-		return newRental;
+                // Provjera da li je vozilo već iznajmljeno u isto vrijeme
+                if (lastEndTimeForVehicle != null && lastEndTimeForVehicle.isAfter(rental.getStartTime())) {
+                    throw new ParsingException("Vehicle " + rental.getVehicleId() + " is already rented.");
+                }
+
+                // Provjera da li korisnik već iznajmljuje drugo vozilo u isto vrijeme
+                if (lastEndTimeForUser != null && lastEndTimeForUser.isAfter(rental.getStartTime())) {
+                    throw new ParsingException("User " + rental.getUser().getName() + " is already renting another vehicle.");
+                }
+
+                // Provjera da li korisnik već iznajmljuje isto vozilo u isto vrijeme
+                String userVehicleKey = rental.getUser().getName() + "-" + rental.getVehicleId();
+                if (userVehiclePairs.contains(userVehicleKey)) {
+                    throw new ParsingException("User " + rental.getUser().getName() + " is already renting vehicle " + rental.getVehicleId() + " at the same time.");
+                }
+
+                newRental.add(rental);
+                lastRentalEndTimes.put(rental.getVehicleId(), rental.getStartTime().plusSeconds(rental.getDurationInSeconds()));
+                userRentalEndTimes.put(rental.getUser().getName(), rental.getStartTime().plusSeconds(rental.getDurationInSeconds()));
+                userVehiclePairs.add(userVehicleKey);
+            } catch (ParsingException e) {
+                System.err.println(e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+
+        return newRental;
 
 	}
 }

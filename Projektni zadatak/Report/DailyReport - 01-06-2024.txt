@@ -1,23 +1,17 @@
-Total Income: 50.42
-Total Discount: 0.05
-Total Promotions: 0.09
-Total Income in Wide Area: 5.03
-Total Income in Narrow Area: 1.52
-Total Amount for Maintenance: 10.08
-Total Amount for Repairs: 9735.00
+Total Income: 3058.16
+Total Discount: 0.20
+Total Promotions: 0.14
+Total Income in Wide Area: 304.50
+Total Income in Narrow Area: 62.00
+Total Amount for Maintenance: 611.63
+Total Amount for Repairs: 47850.00
 List of incomes: 
-   2.86
-   3.46
+   239.86
    0.00
-   4.80
-   3.02
-   3.74
-   6.00
+   600.00
+   252.00
+   360.00
    0.00
-   0.00
-   3.43
-   1.56
-   2.67
-   14.58
-   4.30
-   0.00
+   287.90
+   224.90
+   1093.50

@@ -1,21 +1,21 @@
-User: [name=K1, identificationDocument=5aaeb69937, driverLicenseNumber=d065bef009]
+User: [name=K1, identificationDocument=ZIkq7ylEMs, driverLicenseNumber=euc2VMqudS]
 Vehicle ID: A1
-Start battery level: 60,00%
-End battery level: 25,00%
+Start battery level: 100,00%
+End battery level: 65,00%
 Start time: 3.6.2024 09:00
 End time: 3.6.2024 09:00
 Start location: (5,5)
 End location: (11,5)
 Length: 7
 Distance Narrow Area: 1,00 (x7)
-Distance Wide Area: 1,20 (x0)
+Distance Wide Area: 1,50 (x0)
 Duration: 00:00:08
 Distance: 56,00
-Basic Price: 0,10
-Amount: 5.60
+Basic Price: 10,00
+Amount: 560.00
 Discount: 0,00
 Promotion: 0,00
-Total Amount: 5.60
+Total Amount: 560.00
 Start time: 3.6.2024 09.00
 End time: 3.6.2024 09.00
 Breakdown: No

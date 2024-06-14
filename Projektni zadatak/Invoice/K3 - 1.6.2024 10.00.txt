@@ -8,14 +8,14 @@ Start location: (7,5)
 End location: (9,14)
 Length: 12
 Distance Narrow Area: 1,00 (x12)
-Distance Wide Area: 1,20 (x0)
+Distance Wide Area: 1,50 (x0)
 Duration: 00:00:10
 Distance: 120,00
-Basic Price: 0,05
-Amount: 6.00
+Basic Price: 3,00
+Amount: 360.00
 Discount: 0,00
 Promotion: 0,00
-Total Amount: 6.00
+Total Amount: 360.00
 Start time: 1.6.2024 10.00
 End time: 1.6.2024 10.00
 Breakdown: No

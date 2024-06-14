@@ -1,5 +1,6 @@
 package net.etfbl.pj2.emobility;
 
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -58,6 +60,12 @@ public class EMobility {
 		
 		RentalParser rentalParser = new RentalParser();
 		List<Rental> rentals = rentalParser.parseRentals(conf);
+		 Set<String> validVehicleIds = vehicles.stream()
+                 .map(TransportVehicle::getId)
+                 .collect(Collectors.toSet());
+		 rentals = rentals.stream()
+                 .filter(rental -> validVehicleIds.contains(rental.getVehicleId()))
+                 .collect(Collectors.toList());
 		Util.populateUser(rentals, vehicles);
 
 		List<Invoice> invoices = Util.calculateInvoice(rentals, vehicles);
@@ -65,7 +73,7 @@ public class EMobility {
 		MainFrame mainFrame = new MainFrame(conf, invoices);
 		mainFrame.setVisible(true);
 		Simulation sim = new Simulation();
-		sim.startSimulationWithCompletableFuture(invoices, conf, mainFrame);
+		sim.startStimulationWithSemaphore(invoices, conf, mainFrame);
 
 	}
 

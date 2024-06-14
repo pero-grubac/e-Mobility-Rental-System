@@ -1,4 +1,4 @@
-User: [name=K2, identificationDocument=404d064dd9, driverLicenseNumber=cc5f27a995]
+User: [name=K2, identificationDocument=V23ZtpQ8jX, driverLicenseNumber=tAkZKfaSuF]
 Vehicle ID: A3
 Start battery level: 100,00%
 End battery level: 75,00%
@@ -8,14 +8,14 @@ Start location: (15,15)
 End location: (17,17)
 Length: 5
 Distance Narrow Area: 1,00 (x0)
-Distance Wide Area: 1,20 (x5)
+Distance Wide Area: 1,50 (x5)
 Duration: 00:00:08
-Distance: 48,00
-Basic Price: 0,10
-Amount: 4.80
+Distance: 60,00
+Basic Price: 10,00
+Amount: 600.00
 Discount: 0,00
 Promotion: 0,00
-Total Amount: 4.80
+Total Amount: 600.00
 Start time: 1.6.2024 09.30
 End time: 1.6.2024 09.30
 Breakdown: No
