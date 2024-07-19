@@ -16,11 +16,11 @@ ePJ2 is an e-mobility company that rents out electric cars, bikes, and scooters 
 ## Billing Formulae
 
 <ul>
-  <li><span style="font-size: 1.2em;">Distance: Base Price * DISTANCE_NARROW for narrow areas, Base Price * DISTANCE_WIDE for wide areas.</span></li>
-  <li><span style="font-size: 1.2em;">Damage: Base Price = 0 if damaged.</span></li>
-  <li><span style="font-size: 1.2em;">Discounts: Base Price - (Base Price * DISCOUNT).</span></li>
-  <li><span style="font-size: 1.2em;">Promotions: Base Price - (Base Price * DISCOUNT_PROM).</span></li>
-  <li><span style="font-size: 1.2em;">Total Price: Base Price * Travel Duration.</span></li>
+  <li><span style="font-size: 1.2em;">Distance: <code>Base Price * DISTANCE_NARROW</code> for narrow areas, <code>Base Price * DISTANCE_WIDE</code> for wide areas.</span></li>
+  <li><span style="font-size: 1.2em;">Damage: <code>Base Price = 0</code> if damaged.</span></li>
+  <li><span style="font-size: 1.2em;">Discounts: <code>Base Price - (Base Price * DISCOUNT)</code>.</span></li>
+  <li><span style="font-size: 1.2em;">Promotions: <code>Base Price - (Base Price * DISCOUNT_PROM)</code>.</span></li>
+  <li><span style="font-size: 1.2em;">Total Price: <code>Base Price * Travel Duration</code>.</span></li>
 </ul>
 
 ## Reports
