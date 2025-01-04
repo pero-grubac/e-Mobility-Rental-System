@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <h1>🚗🛵🚴 ePJ2 - e-Mobility Rental System</h1>
+    <h1>🚗🛵🚴 e-Mobility Rental System</h1>
     <p>
         ePJ2 is an e-mobility company that rents out electric cars, bikes, and scooters within the city of Java. The project's goal is to develop a system to track the use of these vehicles, generate detailed financial reports, and monitor the status of the rented vehicles.
     </p>
