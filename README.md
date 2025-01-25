@@ -16,7 +16,7 @@
         <li>🖥️ <strong>Graphical Interfaces:</strong> Implements GUIs using JavaFX and Swing for map display, vehicle status, damage reports, and financial results.</li>
     </ul>
 
-   <h2>💵 Billing Formulae</h2>
+   <h2>💵 Billing Formula</h2>
     <ul>
         <li>📏 <strong>Distance:</strong> <code>Base Price * DISTANCE_NARROW</code> for narrow areas, <code>Base Price * DISTANCE_WIDE</code> for wide areas.</li>
         <li>🔧 <strong>Damage:</strong> <code>Base Price = 0</code> if damaged.</li>
