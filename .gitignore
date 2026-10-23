@@ -1,0 +1,27 @@
+# Build output
+target/
+bin/
+*.class
+*.jar
+!**/.mvn/wrapper/maven-wrapper.jar
+
+# Files the app writes on every run (invoices, daily/summary/special reports)
+/Invoice/
+/Report/
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.settings/
+*.launch
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and crash dumps
+*.log
+hs_err_pid*
+replay_pid*

@@ -1,0 +1,67 @@
+name: CI
+
+# Runs only when something that affects the build changes.
+# README, LICENSE, images and the task PDF never trigger it.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'Test/**'
+      - 'pom.xml'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'Test/**'
+      - 'pom.xml'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build, test, Javadoc
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build and test
+        run: mvn -B -ntp verify
+
+      - name: Generate Javadoc
+        run: mvn -B -ntp javadoc:javadoc
+
+      - name: Upload test reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: target/surefire-reports/
+          retention-days: 7
+
+      - name: Upload JAR and Javadoc
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: emobility
+          path: |
+            target/emobility-*.jar
+            target/reports/apidocs/
+          retention-days: 14
