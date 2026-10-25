@@ -12,7 +12,7 @@
 
 **A multithreaded simulation of an electric car, bike and scooter rental company, with invoices, business reports and a live city map.**
 
-<img src="readme_assets/demo.gif" alt="e-Mobility demo: vehicles drive across the 20x20 city map in parallel, one thread per rental, then the vehicles, breakdowns, business results and top vehicles screens" width="900">
+<img src="readme_assets/demo.gif" alt="e-Mobility demo: rentals of the first time slots drive across the 20x20 city map in parallel, then the Vehicles, Breakdowns and Business results screens update with the invoices so far" width="900">
 
 </div>
 
